@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
 import SupplierCombobox from '@/components/SupplierCombobox';
 import Layout from '@/components/Layout';
 import { supplierService } from '@/services/SupplierService';
@@ -50,9 +49,7 @@ export default function SelectSupplierPage() {
           </div>
         )}
 
-        <div className="space-y-2">
-          <Label htmlFor="supplier-search">{t.supplierName}</Label>
-
+        <div className="space-y-3">
           {loading ? (
             <div className="h-10 rounded-md bg-gray-100 animate-pulse" />
           ) : (
@@ -64,25 +61,25 @@ export default function SelectSupplierPage() {
           )}
 
           {validationErr && (
-            <p className="text-xs text-red-500 mt-1">{validationErr}</p>
+            <p className="text-xs text-red-500">{validationErr}</p>
           )}
 
           {selected && (
-            <p className="text-xs text-green-600 mt-1">{t.selectedPrefix}{selected}</p>
+            <p className="text-xs text-green-600">{t.selectedPrefix}{selected}</p>
           )}
+
+          <Button
+            className="w-full"
+            onClick={handleNext}
+            disabled={loading}
+          >
+            {t.next}
+          </Button>
+
+          <p className="text-xs text-gray-400 dark:text-gray-500 text-center italic">
+            {t.onlyUnsubmitted}
+          </p>
         </div>
-
-        <Button
-          className="mt-6 w-full"
-          onClick={handleNext}
-          disabled={loading}
-        >
-          {t.next}
-        </Button>
-
-        <p className="mt-4 text-xs text-gray-400 dark:text-gray-500 text-center italic">
-          {t.onlyUnsubmitted}
-        </p>
       </div>
     </Layout>
   );
