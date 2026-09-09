@@ -5,6 +5,7 @@ import SupplierCombobox from '@/components/SupplierCombobox';
 import Layout from '@/components/Layout';
 import { supplierService } from '@/services/SupplierService';
 import { useLanguage } from '@/i18n/LanguageContext';
+import AnnouncementBanner from '@/components/AnnouncementBanner';
 
 export default function SelectSupplierPage() {
   const { t } = useLanguage();
@@ -32,7 +33,10 @@ export default function SelectSupplierPage() {
 
   return (
     <Layout align="top">
-      <div className="w-full max-w-md px-4 py-6 sm:p-8 mt-0 mb-3">
+      <div className="w-full max-w-md px-4 pt-4 sm:pt-6">
+        <AnnouncementBanner />
+      </div>
+      <div className="w-full max-w-md px-4 py-2 sm:p-8 mt-0 mb-3">
         <div className="mb-6 text-center">
           <img
             src="/logos/elogo.png"
