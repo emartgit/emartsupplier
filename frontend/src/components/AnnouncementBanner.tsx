@@ -37,46 +37,39 @@ export default function AnnouncementBanner() {
     : { title: '916 Member Day', sub: 'Exclusive member promotions', days: 'Days', hours: 'Hrs', mins: 'Min', secs: 'Sec', live: '🎉 Event is LIVE now!', until: 'Event dates' };
 
   return (
-    <div className="w-full max-w-md mx-auto mb-4 rounded-2xl overflow-hidden shadow-lg border border-yellow-400/30"
-         style={{ background: 'linear-gradient(135deg, #0f1f5c 0%, #1a3080 50%, #0f1f5c 100%)' }}>
+    <div className="w-full max-w-md mx-auto mb-4 rounded-2xl overflow-hidden shadow-lg border border-yellow-400/30 relative"
+         style={{ background: '#0f1f5c' }}>
 
       {/* Promo image */}
       <img
         src="/logos/916.jpeg"
         alt="916 Member Day"
         className="w-full object-cover"
-        style={{ maxHeight: '220px', objectPosition: 'center top' }}
+        style={{ height: '280px', objectPosition: 'center top' }}
       />
 
-      {/* Countdown or LIVE strip */}
-      <div className="px-4 py-3 text-center">
+      {/* Countdown or LIVE strip — overlaid on image bottom */}
+      <div className="absolute bottom-0 left-0 right-0 px-4 py-3 text-center"
+           style={{ background: 'linear-gradient(to top, rgba(10,20,70,0.75) 60%, transparent)' }}>
         {isLive ? (
-          <div className="py-2">
-            <p className="text-green-300 font-bold text-sm animate-pulse">{labels.live}</p>
-            <p className="text-blue-200 text-xs mt-0.5">12–16 Sept 2026</p>
-          </div>
+          <p className="text-green-300 font-bold text-sm animate-pulse drop-shadow">{labels.live}</p>
         ) : timeLeft ? (
-          <>
-            <p className="text-blue-200 text-[11px] uppercase tracking-widest mb-2">
-              {lang === 'zh' ? '倒计时' : 'Countdown'}
-            </p>
-            <div className="flex justify-center gap-2">
-              {[
-                { v: timeLeft.days,    l: labels.days  },
-                { v: timeLeft.hours,   l: labels.hours },
-                { v: timeLeft.minutes, l: labels.mins  },
-                { v: timeLeft.seconds, l: labels.secs  },
-              ].map(({ v, l }) => (
-                <div key={l} className="flex flex-col items-center">
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center font-black text-xl tabular-nums text-white"
-                       style={{ background: 'linear-gradient(135deg,#1e3a8a,#1d4ed8)', boxShadow: '0 0 12px rgba(250,204,21,0.25)' }}>
-                    {String(v).padStart(2, '0')}
-                  </div>
-                  <span className="text-yellow-400 text-[10px] font-semibold mt-1 uppercase tracking-wide">{l}</span>
+          <div className="flex justify-center gap-2">
+            {[
+              { v: timeLeft.days,    l: labels.days  },
+              { v: timeLeft.hours,   l: labels.hours },
+              { v: timeLeft.minutes, l: labels.mins  },
+              { v: timeLeft.seconds, l: labels.secs  },
+            ].map(({ v, l }) => (
+              <div key={l} className="flex flex-col items-center">
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center font-black text-xl tabular-nums text-white"
+                     style={{ background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(6px)', border: '1px solid rgba(255,255,255,0.2)' }}>
+                  {String(v).padStart(2, '0')}
                 </div>
-              ))}
-            </div>
-          </>
+                <span className="text-yellow-300 text-[10px] font-semibold mt-1 uppercase tracking-wide drop-shadow">{l}</span>
+              </div>
+            ))}
+          </div>
         ) : null}
       </div>
     </div>
