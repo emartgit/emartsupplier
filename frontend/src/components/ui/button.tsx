@@ -4,7 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.97]',
+  'group inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.97]',
   {
     variants: {
       variant: {
@@ -28,38 +28,39 @@ export interface ButtonProps
   asChild?: boolean;
 }
 
+const ArrowIcon = () => (
+  <span className="inline-flex opacity-0 -translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-out">
+    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+    </svg>
+  </span>
+);
+
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, onClick, children, ...props }, ref) => {
-    const [iconKey, setIconKey]       = React.useState(0);
-    const [showIcon, setShowIcon]     = React.useState(false);
-    const [leaving, setLeaving]       = React.useState(false);
 
     function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
       // Ripple
       const btn = e.currentTarget;
       const circle = document.createElement('span');
       const diameter = Math.max(btn.clientWidth, btn.clientHeight);
-      const radius = diameter / 2;
-      const rect = btn.getBoundingClientRect();
+      const radius   = diameter / 2;
+      const rect     = btn.getBoundingClientRect();
       circle.className = 'ripple';
       circle.style.width  = circle.style.height = `${diameter}px`;
-      circle.style.left   = `${e.clientX - rect.left - radius}px`;
-      circle.style.top    = `${e.clientY - rect.top  - radius}px`;
+      circle.style.left   = `${e.clientX - rect.left  - radius}px`;
+      circle.style.top    = `${e.clientY - rect.top   - radius}px`;
       btn.appendChild(circle);
       setTimeout(() => circle.remove(), 600);
-
-      // Arrow icon burst — show for 1.2s then fade out
-      setIconKey(k => k + 1);
-      setLeaving(false);
-      setShowIcon(true);
-      setTimeout(() => setLeaving(true), 1200);
-      setTimeout(() => { setShowIcon(false); setLeaving(false); }, 1500);
-
       onClick?.(e);
     }
 
     if (asChild) {
-      return <Slot ref={ref} className={cn(buttonVariants({ variant, size, className }))} onClick={onClick} {...props}>{children}</Slot>;
+      return (
+        <Slot ref={ref} className={cn(buttonVariants({ variant, size, className }))} onClick={onClick} {...props}>
+          {children}
+        </Slot>
+      );
     }
 
     return (
@@ -70,13 +71,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {children}
-        {showIcon && (
-          <span key={iconKey} className={`btn-arrow-icon${leaving ? ' leaving' : ''}`}>
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-            </svg>
-          </span>
-        )}
+        <ArrowIcon />
       </button>
     );
   }
