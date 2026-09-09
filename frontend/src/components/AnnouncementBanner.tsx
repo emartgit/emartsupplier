@@ -6,8 +6,8 @@ const EVENT_END   = new Date('2026-09-16T23:59:59+08:00');
 const SLIDE_INTERVAL = 4000;
 
 const SLIDES = [
-  { src: '/logos/916.jpeg',           alt: '916 Member Day',  showCountdown: true  },
-  { src: '/logos/keningauoutlet.jpeg', alt: 'Keningau Outlet', showCountdown: false },
+  { src: '/logos/916.jpeg',            alt: '916 Member Day',  showCountdown: true,  fit: 'cover'   },
+  { src: '/logos/keningauoutlet.jpeg', alt: 'Keningau Outlet', showCountdown: false, fit: 'contain' },
 ];
 
 function getTimeLeft(target: Date) {
@@ -66,8 +66,8 @@ export default function AnnouncementBanner() {
         <img
           src={current.src}
           alt={current.alt}
-          className="w-full object-cover"
-          style={{ height: '280px', objectPosition: 'center top' }}
+          className="w-full"
+          style={{ height: '280px', objectFit: current.fit as 'cover' | 'contain', objectPosition: 'center center' }}
         />
 
       {/* Countdown overlay — only on slides that want it */}
