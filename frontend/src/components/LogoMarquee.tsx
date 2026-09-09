@@ -12,6 +12,7 @@ const BRANDS: Brand[] = [
   { src: '/logos/GOCELI.png',      alt: 'Goceli' },
   { src: '/logos/DEQLO.png',       alt: 'Deqlo' },
   { src: '/logos/DIY.png',         alt: 'Emart DIY' },
+  { src: '/logos/citoc2.png',      alt: 'Cito C2' },
 ];
 
 export default function LogoMarquee() {
