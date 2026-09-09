@@ -33,7 +33,7 @@ export default function SelectSupplierPage() {
 
   return (
     <Layout align="top">
-      {/* Announcement banner — fixed right side, desktop only */}
+      {/* Announcement banner — fixed right panel on desktop */}
       <div className="hidden lg:block fixed right-6 top-24 w-64 z-20">
         <AnnouncementBanner />
       </div>
@@ -86,6 +86,11 @@ export default function SelectSupplierPage() {
             {t.onlyUnsubmitted}
           </p>
         </div>
+      </div>
+
+      {/* Announcement banner — inline below form on mobile */}
+      <div className="lg:hidden w-full max-w-md px-4 pb-4">
+        <AnnouncementBanner />
       </div>
     </Layout>
   );
