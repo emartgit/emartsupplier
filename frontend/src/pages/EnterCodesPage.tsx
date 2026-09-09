@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import Layout from '@/components/Layout';
 import { supplierService } from '@/services/SupplierService';
 import { OUTLET_FIELDS, type OutletCodes } from '@/types';
@@ -10,9 +9,15 @@ import { useLanguage } from '@/i18n/LanguageContext';
 
 const EMPTY_CODES: OutletCodes = { bk: '', sbk: '', ri: '', sri: '', bt: '', sbu: '' };
 
+const LOCATION_GROUPS = [
+  { location: 'Batu Kawa', color: 'from-blue-500 to-blue-600',   keys: ['bk',  'sbk'] as const },
+  { location: 'Riam',      color: 'from-violet-500 to-violet-600', keys: ['ri',  'sri'] as const },
+  { location: 'Bintulu',   color: 'from-emerald-500 to-emerald-600', keys: ['bt', 'sbu'] as const },
+];
+
 function CheckIcon() {
   return (
-    <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+    <svg className="w-3.5 h-3.5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
     </svg>
   );
@@ -20,14 +25,14 @@ function CheckIcon() {
 
 export default function EnterCodesPage() {
   const { t } = useLanguage();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate  = useNavigate();
+  const location  = useLocation();
   const supplier: string = location.state?.supplier ?? '';
 
-  const [codes, setCodes]           = useState<OutletCodes>(EMPTY_CODES);
-  const [submitting, setSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState('');
-  const [showConfirm, setShowConfirm] = useState(false);
+  const [codes, setCodes]               = useState<OutletCodes>(EMPTY_CODES);
+  const [submitting, setSubmitting]     = useState(false);
+  const [submitError, setSubmitError]   = useState('');
+  const [showConfirm, setShowConfirm]   = useState(false);
   const [validationErr, setValidationErr] = useState('');
 
   if (!supplier) return <Navigate to="/" replace />;
@@ -37,8 +42,10 @@ export default function EnterCodesPage() {
   const hasAtLeastOne = filledCount > 0;
   const progressPct   = Math.round((filledCount / totalFields) * 100);
 
+  const fieldMap = Object.fromEntries(OUTLET_FIELDS.map(f => [f.key, f.label]));
+
   function updateCode(field: keyof OutletCodes, value: string) {
-    setCodes((prev) => ({ ...prev, [field]: value }));
+    setCodes(prev => ({ ...prev, [field]: value }));
     if (value.trim()) setValidationErr('');
   }
 
@@ -64,12 +71,12 @@ export default function EnterCodesPage() {
 
   return (
     <Layout showMarquee={false}>
-      <div className="w-full max-w-lg bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-4 sm:p-8 my-4 sm:my-6 overflow-hidden">
+      <div className="w-full max-w-2xl bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-5 sm:p-7 my-3 sm:my-5">
 
-        {/* Back button */}
+        {/* Back */}
         <button
           onClick={() => navigate('/')}
-          className="inline-flex items-center gap-1.5 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium mb-5 transition-colors group"
+          className="inline-flex items-center gap-1.5 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium mb-4 transition-colors group"
         >
           <svg className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -77,32 +84,32 @@ export default function EnterCodesPage() {
           {t.back.replace('← ', '')}
         </button>
 
-        {/* Header */}
-        <div className="mb-5">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t.enterCodesTitle}</h1>
-          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-            {t.supplierPrefix}<span className="font-semibold text-gray-700 dark:text-gray-200">{supplier}</span>
-          </p>
-        </div>
-
-        {/* Progress bar */}
-        <div className="mb-5">
-          <div className="flex justify-between items-center mb-1.5">
-            <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
-              {filledCount} / {totalFields} {filledCount === totalFields ? '✓ All filled' : 'filled'}
-            </span>
-            <span className="text-xs font-semibold text-blue-600 dark:text-blue-400">{progressPct}%</span>
+        {/* Header + progress row */}
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-5">
+          <div>
+            <h1 className="text-xl font-bold text-gray-900 dark:text-white">{t.enterCodesTitle}</h1>
+            <p className="mt-0.5 text-sm text-gray-500 dark:text-gray-400">
+              {t.supplierPrefix}<span className="font-semibold text-gray-700 dark:text-gray-200">{supplier}</span>
+            </p>
           </div>
-          <div className="w-full h-1.5 rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden">
-            <div
-              className="h-full rounded-full transition-all duration-500"
-              style={{
-                width: `${progressPct}%`,
-                background: filledCount === totalFields
-                  ? 'linear-gradient(90deg, #22c55e, #16a34a)'
-                  : 'linear-gradient(90deg, #3b82f6, #6366f1)',
-              }}
-            />
+
+          {/* Compact progress */}
+          <div className="sm:text-right shrink-0">
+            <div className="flex sm:justify-end items-center gap-2 mb-1">
+              <span className="text-xs text-gray-400 dark:text-gray-500">{filledCount}/{totalFields} filled</span>
+              <span className="text-xs font-bold text-blue-600 dark:text-blue-400">{progressPct}%</span>
+            </div>
+            <div className="w-full sm:w-36 h-1.5 rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden">
+              <div
+                className="h-full rounded-full transition-all duration-500"
+                style={{
+                  width: `${progressPct}%`,
+                  background: filledCount === totalFields
+                    ? 'linear-gradient(90deg,#22c55e,#16a34a)'
+                    : 'linear-gradient(90deg,#3b82f6,#6366f1)',
+                }}
+              />
+            </div>
           </div>
         </div>
 
@@ -112,51 +119,63 @@ export default function EnterCodesPage() {
           </div>
         )}
 
-        {/* Fields */}
+        {/* Location groups */}
         <div className="space-y-3">
-          {OUTLET_FIELDS.map(({ key, label }, index) => {
-            const filled = codes[key].trim() !== '';
-            return (
-              <div
-                key={key}
-                className="field-enter"
-                style={{ animationDelay: `${index * 0.07}s` }}
-              >
-                <Label
-                  htmlFor={key}
-                  className={`text-xs font-semibold uppercase tracking-wide mb-1 block transition-colors ${filled ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'}`}
-                >
-                  {index + 1}. {label}
-                </Label>
-                <div className="relative">
-                  <Input
-                    id={key}
-                    placeholder={t.codePlaceholder}
-                    value={codes[key]}
-                    onChange={(e) => updateCode(key, e.target.value)}
-                    disabled={submitting}
-                    className={`pr-10 transition-colors ${filled ? 'border-green-500 dark:border-green-500 focus:ring-green-500' : ''}`}
-                  />
-                  {filled && (
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                      <CheckIcon />
-                    </div>
-                  )}
-                </div>
+          {LOCATION_GROUPS.map(({ location: loc, color, keys }, gi) => (
+            <div
+              key={loc}
+              className="rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden field-enter"
+              style={{ animationDelay: `${gi * 0.1}s` }}
+            >
+              {/* Location header */}
+              <div className={`bg-gradient-to-r ${color} px-4 py-1.5 flex items-center gap-2`}>
+                <span className="text-white text-xs font-bold uppercase tracking-widest">{loc}</span>
               </div>
-            );
-          })}
+
+              {/* Two fields side by side */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-gray-100 dark:bg-gray-700">
+                {keys.map((k, fi) => {
+                  const filled = codes[k].trim() !== '';
+                  const shortLabel = fieldMap[k]
+                    .replace(/ Sdn Bhd/i, '')
+                    .replace(/Emart /i, '')
+                    .trim();
+                  return (
+                    <div key={k} className="bg-white dark:bg-gray-800 p-3">
+                      <label
+                        htmlFor={k}
+                        className={`block text-[11px] font-semibold uppercase tracking-wide mb-1.5 transition-colors ${filled ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'}`}
+                      >
+                        {fi + 1 + gi * 2}. {shortLabel}
+                      </label>
+                      <div className="relative">
+                        <Input
+                          id={k}
+                          placeholder={t.codePlaceholder}
+                          value={codes[k]}
+                          onChange={e => updateCode(k, e.target.value)}
+                          disabled={submitting}
+                          className={`h-9 text-sm pr-8 transition-colors ${filled ? 'border-green-500 dark:border-green-500 focus:ring-green-500' : ''}`}
+                        />
+                        {filled && (
+                          <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none">
+                            <CheckIcon />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </div>
 
         {validationErr && (
-          <p className="mt-4 text-sm text-red-500 dark:text-red-400 text-center">{validationErr}</p>
+          <p className="mt-3 text-sm text-red-500 dark:text-red-400 text-center">{validationErr}</p>
         )}
 
-        <Button
-          className="mt-5 w-full"
-          onClick={handleSubmitClick}
-          disabled={submitting}
-        >
+        <Button className="mt-4 w-full" onClick={handleSubmitClick} disabled={submitting}>
           {t.submit}
         </Button>
       </div>
