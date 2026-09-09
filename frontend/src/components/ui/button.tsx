@@ -66,7 +66,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         ref={ref}
-        className={cn(buttonVariants({ variant, size, className }), 'btn-ripple')}
+        className={cn(buttonVariants({ variant, size, className }), 'btn-ripple btn-shimmer')}
         onClick={handleClick}
         {...props}
       >

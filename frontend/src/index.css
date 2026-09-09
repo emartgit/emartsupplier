@@ -36,6 +36,34 @@
   .marquee { animation: none; }
 }
 
+/* Button shimmer sweep */
+@keyframes shimmer-sweep {
+  from { transform: translateX(-130%) skewX(-20deg); }
+  to   { transform: translateX(230%)  skewX(-20deg); }
+}
+
+.btn-shimmer::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,0.18) 40%,
+    rgba(255,255,255,0.35) 50%,
+    rgba(255,255,255,0.18) 60%,
+    transparent 100%
+  );
+  transform: translateX(-130%) skewX(-20deg);
+  pointer-events: none;
+}
+
+.btn-shimmer:hover::before {
+  animation: shimmer-sweep 0.65s ease forwards;
+}
+
 /* Button ripple */
 @keyframes ripple-expand {
   to { transform: scale(4); opacity: 0; }
