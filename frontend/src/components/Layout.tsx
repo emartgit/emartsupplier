@@ -65,7 +65,7 @@ export default function Layout({ children, showMarquee = true, align = 'center' 
       </header>
 
       {/* Main content */}
-      <main className={`flex-1 flex flex-col items-center p-4 ${align === 'top' ? 'justify-start pt-0' : 'justify-center'}`}>
+      <main className={`flex-1 flex flex-col items-center p-4 page-enter ${align === 'top' ? 'justify-start pt-0' : 'justify-center'}`}>
         {children}
       </main>
 

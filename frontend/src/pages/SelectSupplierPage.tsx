@@ -15,6 +15,20 @@ export default function SelectSupplierPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [validationErr, setValidationErr] = useState('');
+  const [typedSubtitle, setTypedSubtitle] = useState('');
+  const [typingDone, setTypingDone]       = useState(false);
+
+  useEffect(() => {
+    setTypedSubtitle('');
+    setTypingDone(false);
+    let i = 0;
+    const id = setInterval(() => {
+      i++;
+      setTypedSubtitle(t.subtitle.slice(0, i));
+      if (i >= t.subtitle.length) { setTypingDone(true); clearInterval(id); }
+    }, 38);
+    return () => clearInterval(id);
+  }, [t.subtitle]);
 
   useEffect(() => {
     supplierService.getSuppliers()
@@ -46,7 +60,10 @@ export default function SelectSupplierPage() {
             className="w-20 h-20 mx-auto mb-4 dark:[mix-blend-mode:screen] logo-animated"
           />
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t.title}</h1>
-          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{t.subtitle}</p>
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400 min-h-[1.25rem]">
+            {typedSubtitle}
+            {!typingDone && <span className="cursor-blink ml-px">|</span>}
+          </p>
         </div>
 
         {error && (
