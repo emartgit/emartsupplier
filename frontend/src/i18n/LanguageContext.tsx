@@ -7,6 +7,9 @@ interface LangContextValue {
   toggleLang: () => void;
 }
 
+const CYCLE: Lang[] = ['en', 'ms', 'zh'];
+const LANG_TAG: Record<Lang, string> = { en: 'en', ms: 'ms', zh: 'zh-Hans' };
+
 const LangContext = createContext<LangContextValue | null>(null);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
@@ -16,11 +19,14 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try { localStorage.setItem('lang', lang); } catch {}
-    document.documentElement.lang = lang === 'zh' ? 'zh-Hans' : 'en';
+    document.documentElement.lang = LANG_TAG[lang];
   }, [lang]);
 
   function toggleLang() {
-    setLang(l => l === 'en' ? 'zh' : 'en');
+    setLang(l => {
+      const idx = CYCLE.indexOf(l);
+      return CYCLE[(idx + 1) % CYCLE.length];
+    });
   }
 
   return (

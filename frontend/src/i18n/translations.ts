@@ -1,4 +1,4 @@
-export type Lang = 'en' | 'zh';
+export type Lang = 'en' | 'zh' | 'ms';
 
 export const translations = {
   en: {
@@ -33,7 +33,7 @@ export const translations = {
     ourBrands: 'Our Family of Brands',
     switchDark: 'Switch to dark mode',
     switchLight: 'Switch to light mode',
-    switchLang: '中文',
+    switchLang: 'BM',
 
     // Footer
     allRightsReserved: 'All rights reserved.',
@@ -100,6 +100,52 @@ export const translations = {
 
     showingFirst50: '显示前50个结果，请继续输入以缩小范围',
     noSupplierFound: '未找到相关供应商',
+  },
+  ms: {
+    title: 'Portal Pembekal',
+    subtitle: 'Pilih syarikat anda untuk meneruskan',
+    supplierName: 'Nama Pembekal',
+    searchPlaceholder: 'Taip untuk mencari nama syarikat anda…',
+    next: 'Seterusnya',
+    onlyUnsubmitted: 'Hanya pembekal yang belum menghantar kod disenaraikan.',
+    selectValidation: 'Sila pilih nama pembekal anda daripada senarai.',
+    selectedPrefix: '✓ Dipilih: ',
+
+    enterCodesTitle: 'Masukkan Kod Sistem Anda',
+    supplierPrefix: 'Pembekal: ',
+    allMandatory: 'Semua medan adalah wajib.',
+    back: '← Kembali',
+    codePlaceholder: 'Masukkan kod sistem anda',
+    submit: 'Hantar',
+    submitting: 'Menghantar…',
+    fieldRequired: 'Medan ini diperlukan.',
+    atLeastOne: 'Sila isi sekurang-kurangnya satu kod sistem sebelum menghantar.',
+
+    successTitle: 'Penghantaran Berjaya',
+    thankYouPrefix: 'Terima kasih, ',
+    codesRecorded: 'Kod sistem anda telah direkodkan.',
+    closeWindow: 'Anda boleh menutup tetingkap ini.',
+
+    ourBrands: 'Jenama Kami',
+    switchDark: 'Tukar ke mod gelap',
+    switchLight: 'Tukar ke mod cerah',
+    switchLang: '中文',   /* ms → zh next */
+
+    allRightsReserved: 'Hak cipta terpelihara.',
+    builtBy: 'Produk dibina oleh',
+    dept: 'Jabatan IT & MIS',
+
+    redirecting: 'Mengalih dalam {n}s…',
+
+    confirmTitle: 'Sahkan Penghantaran',
+    confirmDesc: 'Sila semak maklumat anda sebelum menghantar.',
+    confirmSupplier: 'Pembekal',
+    confirmCancel: 'Batal',
+    confirmSubmit: 'Sahkan & Hantar',
+    notProvided: '— (tidak diberikan)',
+
+    showingFirst50: 'Menunjukkan 50 keputusan pertama — taip lebih untuk menyempitkan',
+    noSupplierFound: 'Tiada pembekal ditemui',
   },
 } as const;
 
