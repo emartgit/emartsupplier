@@ -85,7 +85,7 @@ export default function AnnouncementBanner() {
 
           {/* Countdown overlay — only on slides that want it */}
           {current.showCountdown && (
-            <div className="absolute bottom-0 left-0 right-0 px-4 py-3 text-center"
+            <div className="absolute bottom-0 left-0 right-0 px-4 py-3 text-center z-20"
                  style={{ background: 'linear-gradient(to top, rgba(10,20,70,0.75) 60%, transparent)' }}>
               {isLive ? (
                 <p className="text-green-300 font-bold text-sm animate-pulse drop-shadow">{labels.live}</p>
