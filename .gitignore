@@ -1,0 +1,15 @@
+# Dependencies
+frontend/node_modules/
+
+# Build cache
+frontend/.vite/
+
+# Sensitive config
+api/config/BackendDatabase.php
+
+# Laragon / OS
+.DS_Store
+Thumbs.db
+
+# Claude scratchpad
+.claude/

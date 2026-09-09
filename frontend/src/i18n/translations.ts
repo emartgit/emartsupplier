@@ -3,7 +3,7 @@ export type Lang = 'en' | 'zh';
 export const translations = {
   en: {
     // SelectSupplierPage
-    title: 'Supplier Onboarding Portal',
+    title: 'Supplier Portal',
     subtitle: 'Select your company to continue',
     supplierName: 'Supplier Name',
     searchPlaceholder: 'Type to search your company name…',
@@ -55,7 +55,7 @@ export const translations = {
     noSupplierFound: 'No supplier found',
   },
   zh: {
-    title: '供应商入驻门户',
+    title: '供应商门户',
     subtitle: '请选择您的公司以继续',
     supplierName: '供应商名称',
     searchPlaceholder: '输入关键字搜索公司名称…',

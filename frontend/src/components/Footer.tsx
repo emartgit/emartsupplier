@@ -4,7 +4,7 @@ export default function Footer() {
   const { t } = useLanguage();
   const year = new Date().getFullYear();
   return (
-    <footer className="mt-8 py-6 text-center text-xs text-gray-500 dark:text-gray-400 space-y-1">
+    <footer className="mt-8 py-3 text-center text-xs text-gray-500 dark:text-gray-400 space-y-1">
       <p>
         &copy; {year}{' '}
         <span className="font-semibold text-gray-700 dark:text-gray-200">Emart Holdings Sdn Bhd</span>. {t.allRightsReserved}
