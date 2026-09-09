@@ -51,6 +51,7 @@ export default function SupplierCombobox({ suppliers, value, onChange, disabled 
         onFocus={() => query.trim().length >= 2 && setOpen(true)}
         disabled={disabled}
         autoComplete="off"
+        className="glow-search focus:ring-0"
       />
       {open && filtered.length > 0 && (
         <ul className="absolute z-50 w-full mt-1 max-h-60 overflow-y-auto custom-scroll rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 shadow-xl text-sm text-gray-900 dark:text-gray-100 py-1">
