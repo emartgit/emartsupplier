@@ -53,21 +53,29 @@ export default function SupplierCombobox({ suppliers, value, onChange, disabled 
         autoComplete="off"
       />
       {open && filtered.length > 0 && (
-        <ul className="absolute z-50 w-full mt-1 max-h-60 overflow-y-auto rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 shadow-md text-sm text-gray-900 dark:text-gray-100">
+        <ul className="absolute z-50 w-full mt-1 max-h-60 overflow-y-auto custom-scroll rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 shadow-xl text-sm text-gray-900 dark:text-gray-100 py-1">
           {filtered.map((name, i) => (
             <li
               key={i}
               className={cn(
-                'px-3 py-2 cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-900/30',
-                name === value && 'bg-blue-50 dark:bg-blue-900/40 font-medium text-blue-800 dark:text-blue-300'
+                'mx-1 px-3 py-2 rounded-lg cursor-pointer transition-colors flex items-center gap-2',
+                'hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-700 dark:hover:text-blue-300',
+                name === value
+                  ? 'bg-blue-50 dark:bg-blue-900/40 font-semibold text-blue-700 dark:text-blue-300'
+                  : 'text-gray-800 dark:text-gray-200'
               )}
               onMouseDown={() => select(name)}
             >
-              {name}
+              {name === value && (
+                <svg className="w-3.5 h-3.5 shrink-0 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              )}
+              <span className={name === value ? '' : 'pl-5'}>{name}</span>
             </li>
           ))}
           {suppliers.filter(s => s.toLowerCase().includes(query.toLowerCase())).length > 50 && (
-            <li className="px-3 py-2 text-gray-400 dark:text-gray-500 italic text-xs">
+            <li className="px-4 py-2 text-gray-400 dark:text-gray-500 italic text-xs border-t border-gray-100 dark:border-gray-700 mt-1">
               {t.showingFirst50}
             </li>
           )}
