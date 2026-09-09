@@ -1,23 +1,24 @@
 import { useEffect, useState } from 'react';
+import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import Layout from '@/components/Layout';
 import { useLanguage } from '@/i18n/LanguageContext';
 
-interface Props {
-  supplier: string;
-  onReset: () => void;
-}
-
 const COUNTDOWN = 5;
 
-export default function SuccessPage({ supplier, onReset }: Props) {
+export default function SuccessPage() {
   const { t } = useLanguage();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const supplier: string = location.state?.supplier ?? '';
   const [seconds, setSeconds] = useState(COUNTDOWN);
 
+  if (!supplier) return <Navigate to="/" replace />;
+
   useEffect(() => {
-    if (seconds <= 0) { onReset(); return; }
+    if (seconds <= 0) { navigate('/', { replace: true }); return; }
     const id = setTimeout(() => setSeconds(s => s - 1), 1000);
     return () => clearTimeout(id);
-  }, [seconds, onReset]);
+  }, [seconds, navigate]);
 
   return (
     <Layout>
@@ -33,7 +34,6 @@ export default function SuccessPage({ supplier, onReset }: Props) {
           {t.codesRecorded}
         </p>
 
-        {/* Countdown ring */}
         <div className="mt-6 flex flex-col items-center gap-2">
           <div className="relative w-12 h-12">
             <svg className="w-12 h-12 -rotate-90" viewBox="0 0 48 48">

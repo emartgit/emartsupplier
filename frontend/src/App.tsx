@@ -1,39 +1,26 @@
-import { useState } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import SelectSupplierPage from '@/pages/SelectSupplierPage';
 import EnterCodesPage from '@/pages/EnterCodesPage';
 import SuccessPage from '@/pages/SuccessPage';
 import { NavProvider } from './NavContext';
 
-type Step = 'select' | 'enter' | 'success';
+function AppRoutes() {
+  return (
+    <Routes>
+      <Route path="/" element={<SelectSupplierPage />} />
+      <Route path="/enter" element={<EnterCodesPage />} />
+      <Route path="/success" element={<SuccessPage />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  );
+}
 
 export default function App() {
-  const [step, setStep] = useState<Step>('select');
-  const [supplier, setSupplier] = useState('');
-
-  function handleSupplierSelect(name: string) {
-    setSupplier(name);
-    setStep('enter');
-  }
-
-  function handleBack() {
-    setSupplier('');
-    setStep('select');
-  }
-
-  function handleSuccess() {
-    setStep('success');
-  }
-
-  function handleReset() {
-    setSupplier('');
-    setStep('select');
-  }
-
   return (
-    <NavProvider goHome={handleReset}>
-      {step === 'select' && <SelectSupplierPage onSelect={handleSupplierSelect} />}
-      {step === 'enter' && <EnterCodesPage supplier={supplier} onBack={handleBack} onSuccess={handleSuccess} />}
-      {step === 'success' && <SuccessPage supplier={supplier} onReset={handleReset} />}
-    </NavProvider>
+    <BrowserRouter>
+      <NavProvider>
+        <AppRoutes />
+      </NavProvider>
+    </BrowserRouter>
   );
 }

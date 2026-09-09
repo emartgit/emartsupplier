@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -7,20 +8,20 @@ import { supplierService } from '@/services/SupplierService';
 import { OUTLET_FIELDS, type OutletCodes } from '@/types';
 import { useLanguage } from '@/i18n/LanguageContext';
 
-interface Props {
-  supplier: string;
-  onBack: () => void;
-  onSuccess: () => void;
-}
-
 const EMPTY_CODES: OutletCodes = { bk: '', sbk: '', ri: '', sri: '', bt: '', sbu: '' };
 
-export default function EnterCodesPage({ supplier, onBack, onSuccess }: Props) {
+export default function EnterCodesPage() {
   const { t } = useLanguage();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const supplier: string = location.state?.supplier ?? '';
+
   const [codes, setCodes] = useState<OutletCodes>(EMPTY_CODES);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [showConfirm, setShowConfirm] = useState(false);
+
+  if (!supplier) return <Navigate to="/" replace />;
 
   function updateCode(field: keyof OutletCodes, value: string) {
     setCodes((prev) => ({ ...prev, [field]: value }));
@@ -31,7 +32,7 @@ export default function EnterCodesPage({ supplier, onBack, onSuccess }: Props) {
     setSubmitError('');
     try {
       await supplierService.submit({ supplier, ...codes });
-      onSuccess();
+      navigate('/success', { state: { supplier }, replace: true });
     } catch (e) {
       setSubmitError((e as Error).message);
       setShowConfirm(false);
@@ -45,7 +46,7 @@ export default function EnterCodesPage({ supplier, onBack, onSuccess }: Props) {
       <div className="w-full max-w-lg bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-8 my-6">
         <div className="mb-6">
           <button
-            onClick={onBack}
+            onClick={() => navigate('/')}
             className="text-sm text-blue-600 hover:underline flex items-center gap-1 mb-4"
           >
             {t.back}
@@ -90,12 +91,10 @@ export default function EnterCodesPage({ supplier, onBack, onSuccess }: Props) {
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{t.confirmDesc}</p>
 
             <div className="rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden text-sm mb-5">
-              {/* Supplier row */}
               <div className="flex items-start gap-4 px-4 py-3 bg-blue-50 dark:bg-blue-900/20 border-b border-gray-200 dark:border-gray-700">
                 <span className="shrink-0 w-32 font-semibold text-gray-600 dark:text-gray-300">{t.confirmSupplier}</span>
                 <span className="flex-1 font-medium text-gray-900 dark:text-white break-words">{supplier}</span>
               </div>
-              {/* Code rows */}
               {OUTLET_FIELDS.map(({ key, label }, i) => (
                 <div
                   key={key}

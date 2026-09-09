@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import SupplierCombobox from '@/components/SupplierCombobox';
@@ -6,12 +7,9 @@ import Layout from '@/components/Layout';
 import { supplierService } from '@/services/SupplierService';
 import { useLanguage } from '@/i18n/LanguageContext';
 
-interface Props {
-  onSelect: (supplier: string) => void;
-}
-
-export default function SelectSupplierPage({ onSelect }: Props) {
+export default function SelectSupplierPage() {
   const { t } = useLanguage();
+  const navigate = useNavigate();
   const [suppliers, setSuppliers] = useState<string[]>([]);
   const [selected, setSelected] = useState('');
   const [loading, setLoading] = useState(true);
@@ -30,7 +28,7 @@ export default function SelectSupplierPage({ onSelect }: Props) {
       setValidationErr(t.selectValidation);
       return;
     }
-    onSelect(selected);
+    navigate('/enter', { state: { supplier: selected } });
   }
 
   return (
