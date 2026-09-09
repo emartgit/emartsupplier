@@ -12,13 +12,14 @@ export default function SuccessPage() {
   const supplier: string = location.state?.supplier ?? '';
   const [seconds, setSeconds] = useState(COUNTDOWN);
 
-  if (!supplier) return <Navigate to="/" replace />;
-
   useEffect(() => {
+    if (!supplier) return;
     if (seconds <= 0) { navigate('/', { replace: true }); return; }
     const id = setTimeout(() => setSeconds(s => s - 1), 1000);
     return () => clearTimeout(id);
-  }, [seconds, navigate]);
+  }, [seconds, navigate, supplier]);
+
+  if (!supplier) return <Navigate to="/" replace />;
 
   return (
     <Layout>
