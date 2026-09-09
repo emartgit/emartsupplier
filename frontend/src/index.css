@@ -54,6 +54,15 @@
   animation: cursor-blink 0.75s step-end infinite;
 }
 
+/* Staggered field entrance */
+@keyframes field-slide-in {
+  from { opacity: 0; transform: translateX(-14px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.field-enter {
+  animation: field-slide-in 0.35s ease both;
+}
+
 /* Logo animations */
 @keyframes logo-pop-in {
   0%   { transform: scale(0) rotate(-20deg); opacity: 0; }

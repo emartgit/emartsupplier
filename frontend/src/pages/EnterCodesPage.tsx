@@ -10,13 +10,21 @@ import { useLanguage } from '@/i18n/LanguageContext';
 
 const EMPTY_CODES: OutletCodes = { bk: '', sbk: '', ri: '', sri: '', bt: '', sbu: '' };
 
+function CheckIcon() {
+  return (
+    <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+    </svg>
+  );
+}
+
 export default function EnterCodesPage() {
   const { t } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
   const supplier: string = location.state?.supplier ?? '';
 
-  const [codes, setCodes] = useState<OutletCodes>(EMPTY_CODES);
+  const [codes, setCodes]           = useState<OutletCodes>(EMPTY_CODES);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [showConfirm, setShowConfirm] = useState(false);
@@ -24,7 +32,10 @@ export default function EnterCodesPage() {
 
   if (!supplier) return <Navigate to="/" replace />;
 
-  const hasAtLeastOne = Object.values(codes).some(v => v.trim() !== '');
+  const filledCount   = Object.values(codes).filter(v => v.trim() !== '').length;
+  const totalFields   = OUTLET_FIELDS.length;
+  const hasAtLeastOne = filledCount > 0;
+  const progressPct   = Math.round((filledCount / totalFields) * 100);
 
   function updateCode(field: keyof OutletCodes, value: string) {
     setCodes((prev) => ({ ...prev, [field]: value }));
@@ -53,46 +64,99 @@ export default function EnterCodesPage() {
 
   return (
     <Layout showMarquee={false}>
-      <div className="w-full max-w-lg bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-4 sm:p-8 my-4 sm:my-6">
-        <div className="mb-6">
-          <button
-            onClick={() => navigate('/')}
-            className="text-sm text-blue-600 hover:underline flex items-center gap-1 mb-4"
-          >
-            {t.back}
-          </button>
+      <div className="w-full max-w-lg bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-4 sm:p-8 my-4 sm:my-6 overflow-hidden">
+
+        {/* Back button */}
+        <button
+          onClick={() => navigate('/')}
+          className="inline-flex items-center gap-1.5 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium mb-5 transition-colors group"
+        >
+          <svg className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+          {t.back.replace('← ', '')}
+        </button>
+
+        {/* Header */}
+        <div className="mb-5">
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t.enterCodesTitle}</h1>
           <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-            {t.supplierPrefix}<span className="font-medium text-gray-700 dark:text-gray-200">{supplier}</span>
+            {t.supplierPrefix}<span className="font-semibold text-gray-700 dark:text-gray-200">{supplier}</span>
           </p>
         </div>
 
+        {/* Progress bar */}
+        <div className="mb-5">
+          <div className="flex justify-between items-center mb-1.5">
+            <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
+              {filledCount} / {totalFields} {filledCount === totalFields ? '✓ All filled' : 'filled'}
+            </span>
+            <span className="text-xs font-semibold text-blue-600 dark:text-blue-400">{progressPct}%</span>
+          </div>
+          <div className="w-full h-1.5 rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden">
+            <div
+              className="h-full rounded-full transition-all duration-500"
+              style={{
+                width: `${progressPct}%`,
+                background: filledCount === totalFields
+                  ? 'linear-gradient(90deg, #22c55e, #16a34a)'
+                  : 'linear-gradient(90deg, #3b82f6, #6366f1)',
+              }}
+            />
+          </div>
+        </div>
+
         {submitError && (
-          <div className="mb-4 rounded-md bg-red-50 border border-red-200 p-3 text-sm text-red-700">
+          <div className="mb-4 rounded-md bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-3 text-sm text-red-700 dark:text-red-400">
             {submitError}
           </div>
         )}
 
-        <div className="space-y-4">
-          {OUTLET_FIELDS.map(({ key, label }, index) => (
-            <div key={key} className="space-y-1">
-              <Label htmlFor={key}>{index + 1}. {label}</Label>
-              <Input
-                id={key}
-                placeholder={t.codePlaceholder}
-                value={codes[key]}
-                onChange={(e) => updateCode(key, e.target.value)}
-                disabled={submitting}
-              />
-            </div>
-          ))}
+        {/* Fields */}
+        <div className="space-y-3">
+          {OUTLET_FIELDS.map(({ key, label }, index) => {
+            const filled = codes[key].trim() !== '';
+            return (
+              <div
+                key={key}
+                className="field-enter"
+                style={{ animationDelay: `${index * 0.07}s` }}
+              >
+                <Label
+                  htmlFor={key}
+                  className={`text-xs font-semibold uppercase tracking-wide mb-1 block transition-colors ${filled ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'}`}
+                >
+                  {index + 1}. {label}
+                </Label>
+                <div className="relative">
+                  <Input
+                    id={key}
+                    placeholder={t.codePlaceholder}
+                    value={codes[key]}
+                    onChange={(e) => updateCode(key, e.target.value)}
+                    disabled={submitting}
+                    className={`pr-10 transition-colors ${filled ? 'border-green-500 dark:border-green-500 focus:ring-green-500' : ''}`}
+                  />
+                  {filled && (
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                      <CheckIcon />
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
         </div>
 
         {validationErr && (
-          <p className="mt-4 text-sm text-red-500 text-center">{validationErr}</p>
+          <p className="mt-4 text-sm text-red-500 dark:text-red-400 text-center">{validationErr}</p>
         )}
 
-        <Button className="mt-3 w-full" onClick={handleSubmitClick} disabled={submitting}>
+        <Button
+          className="mt-5 w-full"
+          onClick={handleSubmitClick}
+          disabled={submitting}
+        >
           {t.submit}
         </Button>
       </div>
