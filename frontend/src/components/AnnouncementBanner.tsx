@@ -7,8 +7,8 @@ const SLIDE_INTERVAL = 4000;
 const BANNER_HEIGHT  = 260;
 
 const SLIDES = [
-  { src: '/logos/916.jpeg',            alt: '916 Member Day',  showCountdown: true,  objectPosition: 'center' },
-  { src: '/logos/keningauoutlet.jpeg', alt: 'Keningau Outlet', showCountdown: false, objectPosition: 'center' },
+  { src: '/logos/916.jpeg',            alt: '916 Member Day',  showCountdown: true  },
+  { src: '/logos/keningauoutlet.jpeg', alt: 'Keningau Outlet', showCountdown: false },
 ];
 
 function getTimeLeft(target: Date) {
@@ -68,11 +68,19 @@ export default function AnnouncementBanner() {
         {/* Slide — image + overlay fade together */}
         <div className="absolute inset-0"
              style={{ opacity: fading ? 0 : 1, transition: 'opacity 0.4s ease' }}>
+          {/* Blurred background fills any gaps — same image scaled+blurred */}
+          <img
+            src={current.src}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover scale-110"
+            style={{ filter: 'blur(14px) brightness(0.55)' }}
+          />
+          {/* Foreground — full image, no cropping */}
           <img
             src={current.src}
             alt={current.alt}
-            className="w-full h-full object-cover"
-            style={{ objectPosition: current.objectPosition }}
+            className="relative w-full h-full object-contain z-10"
           />
 
           {/* Countdown overlay — only on slides that want it */}
