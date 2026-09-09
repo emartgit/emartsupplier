@@ -70,8 +70,8 @@ export default function EnterCodesPage() {
   }
 
   return (
-    <Layout showMarquee={false}>
-      <div className="w-full max-w-2xl bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-5 sm:p-7 my-3 sm:my-5">
+    <Layout showMarquee={false} align="top">
+      <div className="w-full max-w-2xl bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-5 sm:p-7 mt-2 mb-4">
 
         {/* Back */}
         <button
