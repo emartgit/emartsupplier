@@ -30,8 +30,9 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, onClick, children, ...props }, ref) => {
-    const [iconKey, setIconKey] = React.useState(0);
-    const [showIcon, setShowIcon] = React.useState(false);
+    const [iconKey, setIconKey]       = React.useState(0);
+    const [showIcon, setShowIcon]     = React.useState(false);
+    const [leaving, setLeaving]       = React.useState(false);
 
     function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
       // Ripple
@@ -47,10 +48,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       btn.appendChild(circle);
       setTimeout(() => circle.remove(), 600);
 
-      // Arrow icon burst
+      // Arrow icon burst — show for 1.2s then fade out
       setIconKey(k => k + 1);
+      setLeaving(false);
       setShowIcon(true);
-      setTimeout(() => setShowIcon(false), 500);
+      setTimeout(() => setLeaving(true), 1200);
+      setTimeout(() => { setShowIcon(false); setLeaving(false); }, 1500);
 
       onClick?.(e);
     }
@@ -68,8 +71,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       >
         {children}
         {showIcon && (
-          <span key={iconKey} className="btn-arrow-icon">
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+          <span key={iconKey} className={`btn-arrow-icon${leaving ? ' leaving' : ''}`}>
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
             </svg>
           </span>
