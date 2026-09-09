@@ -33,10 +33,12 @@ export default function SelectSupplierPage() {
 
   return (
     <Layout align="top">
-      <div className="w-full max-w-md px-4 pt-4 sm:pt-6">
+      {/* Announcement banner — fixed right side, desktop only */}
+      <div className="hidden lg:block fixed right-6 top-24 w-64 z-20">
         <AnnouncementBanner />
       </div>
-      <div className="w-full max-w-md px-4 py-2 sm:p-8 mt-0 mb-3">
+
+      <div className="w-full max-w-md px-4 py-6 sm:p-8 mt-0 mb-3">
         <div className="mb-6 text-center">
           <img
             src="/logos/elogo.png"
