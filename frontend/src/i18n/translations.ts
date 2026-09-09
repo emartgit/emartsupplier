@@ -21,6 +21,7 @@ export const translations = {
     submit: 'Submit',
     submitting: 'Submitting…',
     fieldRequired: 'This field is required.',
+    atLeastOne: 'Please fill in at least one system code before submitting.',
 
     // SuccessPage
     successTitle: 'Submission Successful',
@@ -72,6 +73,7 @@ export const translations = {
     submit: '提交',
     submitting: '提交中…',
     fieldRequired: '此字段为必填项。',
+    atLeastOne: '请至少填写一个系统代码后再提交。',
 
     successTitle: '提交成功',
     thankYouPrefix: '谢谢您，',

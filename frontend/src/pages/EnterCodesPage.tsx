@@ -20,11 +20,21 @@ export default function EnterCodesPage() {
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [showConfirm, setShowConfirm] = useState(false);
+  const [validationErr, setValidationErr] = useState('');
 
   if (!supplier) return <Navigate to="/" replace />;
 
+  const hasAtLeastOne = Object.values(codes).some(v => v.trim() !== '');
+
   function updateCode(field: keyof OutletCodes, value: string) {
     setCodes((prev) => ({ ...prev, [field]: value }));
+    if (value.trim()) setValidationErr('');
+  }
+
+  function handleSubmitClick() {
+    if (!hasAtLeastOne) { setValidationErr(t.atLeastOne); return; }
+    setValidationErr('');
+    setShowConfirm(true);
   }
 
   async function handleConfirmedSubmit() {
@@ -78,7 +88,11 @@ export default function EnterCodesPage() {
           ))}
         </div>
 
-        <Button className="mt-8 w-full" onClick={() => setShowConfirm(true)} disabled={submitting}>
+        {validationErr && (
+          <p className="mt-4 text-sm text-red-500 text-center">{validationErr}</p>
+        )}
+
+        <Button className="mt-3 w-full" onClick={handleSubmitClick} disabled={submitting}>
           {t.submit}
         </Button>
       </div>
