@@ -43,7 +43,7 @@ export default function EnterCodesPage() {
 
   return (
     <Layout showMarquee={false}>
-      <div className="w-full max-w-lg bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-8 my-6">
+      <div className="w-full max-w-lg bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-4 sm:p-8 my-4 sm:my-6">
         <div className="mb-6">
           <button
             onClick={() => navigate('/')}
@@ -100,7 +100,7 @@ export default function EnterCodesPage() {
                   key={key}
                   className={`flex items-center gap-4 px-4 py-2.5 ${i % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-50 dark:bg-gray-700/40'} ${i < OUTLET_FIELDS.length - 1 ? 'border-b border-gray-100 dark:border-gray-700' : ''}`}
                 >
-                  <span className="shrink-0 w-52 text-gray-500 dark:text-gray-400">{label}</span>
+                  <span className="shrink-0 w-28 sm:w-52 text-gray-500 dark:text-gray-400">{label}</span>
                   <span className={`flex-1 font-mono ${codes[key].trim() ? 'text-gray-900 dark:text-white' : 'text-gray-400 dark:text-gray-500 italic'}`}>
                     {codes[key].trim() || t.notProvided}
                   </span>

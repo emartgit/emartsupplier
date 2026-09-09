@@ -16,9 +16,11 @@ export default function Clock() {
       <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
       <div className="tabular-nums">
         <span className="font-semibold text-gray-800 dark:text-white">{now.time}</span>
-        <span className="mx-2 text-gray-300 dark:text-gray-600">|</span>
-        <span>{now.date}</span>
-        <span className="ml-2 text-xs text-gray-400 dark:text-gray-500">(MYT · GMT+8)</span>
+        <span className="hidden sm:inline">
+          <span className="mx-2 text-gray-300 dark:text-gray-600">|</span>
+          <span>{now.date}</span>
+          <span className="ml-2 text-xs text-gray-400 dark:text-gray-500">(MYT · GMT+8)</span>
+        </span>
       </div>
     </div>
   );
