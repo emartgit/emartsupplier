@@ -43,7 +43,7 @@ export default function SelectSupplierPage() {
           <img
             src="/logos/elogo.png"
             alt="Emart"
-            className="w-20 h-20 mx-auto mb-4 dark:[mix-blend-mode:screen]"
+            className="w-20 h-20 mx-auto mb-4 dark:[mix-blend-mode:screen] logo-animated"
           />
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t.title}</h1>
           <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{t.subtitle}</p>

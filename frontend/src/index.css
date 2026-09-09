@@ -35,3 +35,34 @@
 @media (prefers-reduced-motion: reduce) {
   .marquee { animation: none; }
 }
+
+/* Logo animations */
+@keyframes logo-pop-in {
+  0%   { transform: scale(0) rotate(-20deg); opacity: 0; }
+  70%  { transform: scale(1.15) rotate(6deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes logo-float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+
+@keyframes logo-glow-pulse {
+  0%, 100% { filter: drop-shadow(0 0 6px rgba(255, 180, 0, 0.45)); }
+  50%       { filter: drop-shadow(0 0 18px rgba(255, 180, 0, 0.85)); }
+}
+
+.logo-animated {
+  animation:
+    logo-pop-in   0.65s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+    logo-float    3.2s ease-in-out 0.65s infinite,
+    logo-glow-pulse 3.2s ease-in-out 0.65s infinite;
+  cursor: pointer;
+  transition: transform 0.25s ease;
+}
+
+.logo-animated:hover {
+  transform: scale(1.12) rotate(8deg);
+  animation-play-state: paused;
+}
