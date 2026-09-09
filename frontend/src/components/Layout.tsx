@@ -26,7 +26,7 @@ export default function Layout({ children, showMarquee = true }: Props) {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 via-white to-blue-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 transition-colors duration-300">
       {/* Header */}
-      <header className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10 shadow-sm">
+      <header className="sticky top-0 z-10">
         <div className="w-full px-6 py-3 flex items-center justify-between">
           <button onClick={goHome} className="flex items-center gap-3 focus:outline-none" title="Go to home">
             <img
@@ -70,7 +70,7 @@ export default function Layout({ children, showMarquee = true }: Props) {
 
       {/* Brand marquee */}
       {showMarquee && (
-        <div className="border-t border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-transparent">
+        <div className="bg-white/60 dark:bg-transparent">
           <p className="text-center text-[11px] uppercase tracking-widest text-gray-400 dark:text-gray-500 pt-3">
             {t.ourBrands}
           </p>
