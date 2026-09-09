@@ -7,7 +7,7 @@ const SLIDE_INTERVAL = 4000;
 
 const SLIDES = [
   { src: '/logos/916.jpeg',            alt: '916 Member Day',  showCountdown: true,  fit: 'cover'   },
-  { src: '/logos/keningauoutlet.jpeg', alt: 'Keningau Outlet', showCountdown: false, fit: 'cover'   },
+  { src: '/logos/keningauoutlet.jpeg', alt: 'Keningau Outlet', showCountdown: false, fit: 'contain' },
 ];
 
 function getTimeLeft(target: Date) {
