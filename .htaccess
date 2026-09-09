@@ -1,0 +1,21 @@
+Options -Indexes
+RewriteEngine On
+
+# 1. Root request → serve React SPA
+RewriteRule ^$ dist/index.html [L]
+
+# 2. Existing files (api/*.php, static assets already in root) pass through
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+# 3. Existing directories (e.g. /api, /dist) pass through
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# 4. Route built assets and logos from the SPA's public root to dist/
+#    (index.html references them as /assets/*, /logos/*, /favicon.svg, etc.)
+RewriteCond %{DOCUMENT_ROOT}/dist/$1 -f
+RewriteRule ^(.+\.(js|css|png|jpg|jpeg|svg|ico|woff2?|ttf|map))$ dist/$1 [L]
+
+# 5. Everything else → React SPA (client-side routing fallback)
+RewriteRule ^ dist/index.html [L]
