@@ -32,9 +32,14 @@ export default function SelectSupplierPage() {
   }
 
   return (
-    <Layout>
-      <div className="w-full max-w-md p-8 my-6">
+    <Layout align="top">
+      <div className="w-full max-w-md p-8 mt-0 mb-3">
         <div className="mb-6 text-center">
+          <img
+            src="/logos/elogo.png"
+            alt="Emart"
+            className="w-20 h-20 mx-auto mb-4 [mix-blend-mode:screen]"
+          />
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t.title}</h1>
           <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{t.subtitle}</p>
         </div>

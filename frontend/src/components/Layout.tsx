@@ -8,9 +8,10 @@ import { useNav } from '@/NavContext';
 interface Props {
   children: ReactNode;
   showMarquee?: boolean;
+  align?: 'center' | 'top';
 }
 
-export default function Layout({ children, showMarquee = true }: Props) {
+export default function Layout({ children, showMarquee = true, align = 'center' }: Props) {
   const { t, toggleLang } = useLanguage();
   const { goHome } = useNav();
   const [dark, setDark] = useState(() => {
@@ -64,7 +65,7 @@ export default function Layout({ children, showMarquee = true }: Props) {
       </header>
 
       {/* Main content */}
-      <main className="flex-1 flex flex-col items-center justify-center p-4">
+      <main className={`flex-1 flex flex-col items-center p-4 ${align === 'top' ? 'justify-start pt-0' : 'justify-center'}`}>
         {children}
       </main>
 
