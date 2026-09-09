@@ -38,8 +38,9 @@
 
 /* Button shimmer sweep */
 @keyframes shimmer-sweep {
-  from { transform: translateX(-130%) skewX(-20deg); }
-  to   { transform: translateX(230%)  skewX(-20deg); }
+  0%   { transform: translateX(-130%) skewX(-20deg); }
+  35%  { transform: translateX(230%)  skewX(-20deg); }
+  100% { transform: translateX(230%)  skewX(-20deg); }
 }
 
 .btn-shimmer::before {
@@ -61,7 +62,7 @@
 }
 
 .btn-shimmer:hover::before {
-  animation: shimmer-sweep 0.65s ease forwards;
+  animation: shimmer-sweep 2.2s ease infinite;
 }
 
 /* Button ripple */
