@@ -155,7 +155,7 @@ export default function EnterCodesPage() {
                           value={codes[k]}
                           onChange={e => updateCode(k, e.target.value)}
                           disabled={submitting}
-                          className={`h-9 text-sm pr-8 transition-colors ${filled ? 'border-green-500 dark:border-green-500 focus:ring-green-500' : ''}`}
+                          className={`h-9 text-base pr-8 transition-colors ${filled ? 'border-green-500 dark:border-green-500 focus:ring-green-500' : ''}`}
                         />
                         {filled && (
                           <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none">

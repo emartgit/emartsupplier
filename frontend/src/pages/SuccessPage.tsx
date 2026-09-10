@@ -1,7 +1,56 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import Layout from '@/components/Layout';
 import { useLanguage } from '@/i18n/LanguageContext';
+
+function Confetti() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const colors = ['#3b82f6','#22c55e','#f59e0b','#ec4899','#8b5cf6','#06b6d4','#f97316'];
+    const particles = Array.from({ length: 140 }, () => ({
+      x: window.innerWidth / 2,
+      y: window.innerHeight * 0.45,
+      vx: (Math.random() - 0.5) * 18,
+      vy: Math.random() * -16 - 4,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      w: Math.random() * 9 + 4,
+      h: Math.random() * 5 + 3,
+      rotation: Math.random() * Math.PI * 2,
+      rs: (Math.random() - 0.5) * 0.25,
+    }));
+    let id: number;
+    let frame = 0;
+    const TOTAL = 160;
+    function draw() {
+      ctx!.clearRect(0, 0, canvas!.width, canvas!.height);
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.35;
+        p.vx *= 0.98;
+        p.rotation += p.rs;
+        ctx!.save();
+        ctx!.translate(p.x, p.y);
+        ctx!.rotate(p.rotation);
+        ctx!.globalAlpha = Math.max(0, 1 - frame / TOTAL);
+        ctx!.fillStyle = p.color;
+        ctx!.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        ctx!.restore();
+      });
+      frame++;
+      if (frame < TOTAL) id = requestAnimationFrame(draw);
+    }
+    draw();
+    return () => cancelAnimationFrame(id);
+  }, []);
+  return <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-50" />;
+}
 
 const COUNTDOWN = 5;
 
@@ -23,6 +72,7 @@ export default function SuccessPage() {
 
   return (
     <Layout>
+      <Confetti />
       <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-8 my-6 text-center">
         <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
           <svg className="w-8 h-8 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
