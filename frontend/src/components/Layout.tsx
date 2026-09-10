@@ -72,7 +72,7 @@ export default function Layout({ children, showMarquee = true, align = 'center' 
 
       {/* Brand marquee */}
       {showMarquee && (
-        <div className="bg-gray-50/80 dark:bg-transparent">
+        <div className="bg-transparent dark:bg-transparent">
           <p className="text-center text-[11px] uppercase tracking-widest text-gray-400 dark:text-gray-500 pt-3">
             {t.ourBrands}
           </p>
