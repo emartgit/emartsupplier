@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useLanguage } from '@/i18n/LanguageContext';
 
-const FAQS = ['1', '2', '3', '4'] as const;
+const FAQS = ['1', '3', '4'] as const;
 
 export default function HelpButton() {
   const { t } = useLanguage();
@@ -95,7 +95,6 @@ export default function HelpButton() {
               {faqs.map(({ q, a }, i) => {
                 const accents = [
                   { border: '#3b82f6', bg: 'rgba(59,130,246,0.08)', icon: '💡' },
-                  { border: '#10b981', bg: 'rgba(16,185,129,0.08)', icon: '🔍' },
                   { border: '#f59e0b', bg: 'rgba(245,158,11,0.08)', icon: '⚠️' },
                   { border: '#8b5cf6', bg: 'rgba(139,92,246,0.08)', icon: '📞' },
                 ];
