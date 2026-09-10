@@ -11,9 +11,9 @@ class SupplierModel {
         $db = Database::getConnection();
 
         $stmt = $db->query("
-            SELECT CONCAT(sl.name, ' (', sl.code, ')') AS display
+            SELECT sl.name AS display
             FROM supplier_list sl
-            LEFT JOIN supplier_codes sc ON sc.supplier = CONCAT(sl.name, ' (', sl.code, ')') AND sc.is_submitted = TRUE
+            LEFT JOIN supplier_codes sc ON sc.supplier = sl.name AND sc.is_submitted = TRUE
             WHERE sc.supplier IS NULL
             ORDER BY sl.name ASC
         ");
