@@ -8,6 +8,7 @@ const BANNER_HEIGHT  = 260;
 
 const SLIDES = [
   { src: '/logos/916.jpeg',            alt: '916 Member Day',  showCountdown: true  },
+  { src: '/logos/goceli.jpg',          alt: 'Goceli Opening Soon', showCountdown: false },
   { src: '/logos/keningauoutlet.jpeg', alt: 'Keningau Outlet', showCountdown: false },
 ];
 
