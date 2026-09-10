@@ -26,7 +26,7 @@ export default function Layout({ children, showMarquee = true, align = 'center' 
   }, [dark]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 via-gray-50 to-slate-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 transition-colors duration-300">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-stone-100 via-amber-50 to-stone-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 transition-colors duration-300">
       {/* Header */}
       <header className="sticky top-0 z-10">
         <div className="w-full px-4 sm:px-6 py-2 sm:py-3 flex items-center justify-between">
