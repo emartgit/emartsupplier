@@ -6,6 +6,7 @@ const FAQS = ['1', '2', '3', '4'] as const;
 export default function HelpButton() {
   const { t } = useLanguage();
   const [open, setOpen] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
   const faqs = FAQS.map(n => ({
     q: t[`helpQ${n}` as keyof typeof t] as string,
@@ -14,15 +15,51 @@ export default function HelpButton() {
 
   return (
     <>
-      {/* Floating button */}
-      <button
-        onClick={() => setOpen(true)}
-        aria-label="Help"
-        className="fixed bottom-6 right-6 z-40 w-12 h-12 rounded-full bg-blue-600 hover:bg-blue-700 active:scale-95 text-white shadow-lg flex items-center justify-center text-xl font-bold transition-all duration-200"
-        style={{ boxShadow: '0 4px 20px rgba(59,130,246,0.5)' }}
-      >
-        ?
-      </button>
+      {/* Floating button wrapper */}
+      <div className="fixed bottom-6 right-6 z-40 flex flex-col items-center gap-2">
+
+        {/* Tooltip */}
+        <div
+          className="text-xs font-semibold text-white px-2.5 py-1 rounded-lg pointer-events-none transition-all duration-200"
+          style={{
+            background: 'rgba(30,41,59,0.85)',
+            backdropFilter: 'blur(6px)',
+            opacity: hovered ? 1 : 0,
+            transform: hovered ? 'translateY(0)' : 'translateY(4px)',
+          }}
+        >
+          {t.helpTitle}
+        </div>
+
+        {/* Pulse ring + button */}
+        <div className="relative flex items-center justify-center">
+          {/* Ping ring */}
+          <span
+            className="absolute inline-flex rounded-full opacity-60"
+            style={{
+              width: '52px', height: '52px',
+              background: 'rgba(59,130,246,0.35)',
+              animation: 'help-ping 2s ease-out infinite',
+            }}
+          />
+          <button
+            onClick={() => setOpen(true)}
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+            aria-label="Help"
+            className="relative w-12 h-12 rounded-full text-white flex items-center justify-center text-xl font-black transition-all duration-200 active:scale-95"
+            style={{
+              background: 'linear-gradient(135deg,#3b82f6 0%,#6366f1 100%)',
+              boxShadow: hovered
+                ? '0 6px 28px rgba(99,102,241,0.7), 0 0 0 3px rgba(99,102,241,0.25)'
+                : '0 4px 18px rgba(59,130,246,0.5)',
+              transform: hovered ? 'scale(1.1)' : 'scale(1)',
+            }}
+          >
+            ?
+          </button>
+        </div>
+      </div>
 
       {/* Modal backdrop */}
       {open && (
