@@ -54,6 +54,8 @@ export default function AnnouncementBanner() {
 
   const labels = lang === 'zh'
     ? { days: '天', hours: '时', mins: '分', secs: '秒', live: '🎉 活动正在进行中！' }
+    : lang === 'ms'
+    ? { days: 'Hari', hours: 'Jam', mins: 'Min', secs: 'Saat', live: '🎉 Acara sedang berlangsung!' }
     : { days: 'Days', hours: 'Hrs', mins: 'Min', secs: 'Sec', live: '🎉 Event is LIVE now!' };
 
   const current = SLIDES[slide];

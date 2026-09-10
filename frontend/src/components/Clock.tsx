@@ -3,7 +3,7 @@ import { useLanguage } from '@/i18n/LanguageContext';
 
 export default function Clock() {
   const { lang } = useLanguage();
-  const locale = lang === 'zh' ? 'zh-CN' : 'en-GB';
+  const locale = lang === 'zh' ? 'zh-CN' : lang === 'ms' ? 'ms-MY' : 'en-GB';
   const [now, setNow] = useState(() => getMalaysiaTime(locale));
 
   useEffect(() => {
