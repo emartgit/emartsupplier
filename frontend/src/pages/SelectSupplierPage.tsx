@@ -48,7 +48,7 @@ export default function SelectSupplierPage() {
   return (
     <Layout align="top">
       {/* Announcement banner — fixed right panel on desktop */}
-      <div className="hidden lg:block fixed right-6 top-24 w-64 z-20">
+      <div className="hidden lg:block fixed right-6 top-14 w-64 z-20">
         <AnnouncementBanner />
       </div>
 
