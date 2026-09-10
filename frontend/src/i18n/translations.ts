@@ -13,7 +13,7 @@ export const translations = {
     selectedPrefix: '✓ Selected: ',
 
     // EnterCodesPage
-    enterCodesTitle: 'Enter Your System Codes',
+    enterCodesTitle: 'Enter Your Vendor/Debtor Code',
     supplierPrefix: 'Supplier: ',
     allMandatory: 'All fields are mandatory.',
     back: '← Back',
@@ -77,7 +77,7 @@ export const translations = {
     selectValidation: '请从列表中选择您的供应商名称。',
     selectedPrefix: '✓ 已选择：',
 
-    enterCodesTitle: '输入您的系统代码',
+    enterCodesTitle: '输入您的供应商/债务人代码',
     supplierPrefix: '供应商：',
     allMandatory: '所有字段均为必填。',
     back: '← 返回',
@@ -134,7 +134,7 @@ export const translations = {
     selectValidation: 'Sila pilih nama pembekal anda daripada senarai.',
     selectedPrefix: '✓ Dipilih: ',
 
-    enterCodesTitle: 'Masukkan Kod Sistem Anda',
+    enterCodesTitle: 'Masukkan Kod Vendor/Penghutang Anda',
     supplierPrefix: 'Pembekal: ',
     allMandatory: 'Semua medan adalah wajib.',
     back: '← Kembali',
