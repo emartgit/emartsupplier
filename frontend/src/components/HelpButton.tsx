@@ -69,35 +69,65 @@ export default function HelpButton() {
         >
           <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden animate-in">
 
-            {/* Header */}
-            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-700">
-              <div className="flex items-center gap-2">
-                <span className="w-7 h-7 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex items-center justify-center text-sm font-bold">?</span>
-                <h2 className="text-base font-bold text-gray-900 dark:text-white">{t.helpTitle}</h2>
+            {/* Header — gradient */}
+            <div className="relative px-5 py-5 overflow-hidden"
+                 style={{ background: 'linear-gradient(135deg,#1e3a8a 0%,#4f46e5 100%)' }}>
+              <div className="flex items-center justify-between relative z-10">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center text-white font-black text-lg backdrop-blur-sm">?</div>
+                  <div>
+                    <h2 className="text-base font-bold text-white">{t.helpTitle}</h2>
+                    <p className="text-xs text-blue-200 mt-0.5">Quick answers for you</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setOpen(false)}
+                  className="w-7 h-7 flex items-center justify-center rounded-full bg-white/15 hover:bg-white/30 text-white transition-colors text-lg leading-none"
+                >×</button>
               </div>
-              <button
-                onClick={() => setOpen(false)}
-                className="w-7 h-7 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-lg leading-none"
-              >
-                ×
-              </button>
+              {/* Decorative circles */}
+              <div className="absolute -top-4 -right-4 w-24 h-24 rounded-full bg-white/5 pointer-events-none" />
+              <div className="absolute -bottom-6 -left-6 w-32 h-32 rounded-full bg-white/5 pointer-events-none" />
             </div>
 
             {/* FAQ list */}
-            <div className="divide-y divide-gray-100 dark:divide-gray-700 max-h-[60vh] overflow-y-auto custom-scroll">
-              {faqs.map(({ q, a }, i) => (
-                <div key={i} className="px-5 py-4">
-                  <p className="text-sm font-semibold text-gray-800 dark:text-gray-100 mb-1">{q}</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">{a}</p>
-                </div>
-              ))}
+            <div className="p-4 space-y-3 max-h-[55vh] overflow-y-auto custom-scroll">
+              {faqs.map(({ q, a }, i) => {
+                const accents = [
+                  { border: '#3b82f6', bg: 'rgba(59,130,246,0.08)', icon: '💡' },
+                  { border: '#10b981', bg: 'rgba(16,185,129,0.08)', icon: '🔍' },
+                  { border: '#f59e0b', bg: 'rgba(245,158,11,0.08)', icon: '⚠️' },
+                  { border: '#8b5cf6', bg: 'rgba(139,92,246,0.08)', icon: '📞' },
+                ];
+                const acc = accents[i];
+                return (
+                  <div
+                    key={i}
+                    className="rounded-xl p-4 transition-all duration-200"
+                    style={{
+                      borderLeft: `3px solid ${acc.border}`,
+                      background: acc.bg,
+                      backdropFilter: 'blur(4px)',
+                    }}
+                  >
+                    <div className="flex items-start gap-2.5">
+                      <span className="text-base leading-none mt-0.5 shrink-0">{acc.icon}</span>
+                      <div>
+                        <p className="text-sm font-semibold text-gray-900 dark:text-white mb-1">{q}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">{a}</p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
 
             {/* Footer */}
-            <div className="px-5 py-3 border-t border-gray-100 dark:border-gray-700 flex justify-end">
+            <div className="px-4 pb-4 flex justify-end">
               <button
                 onClick={() => setOpen(false)}
-                className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium transition-colors"
+                className="px-5 py-2 rounded-xl text-white text-sm font-semibold transition-all duration-200 active:scale-95"
+                style={{ background: 'linear-gradient(135deg,#3b82f6,#6366f1)' }}
               >
                 {t.helpClose}
               </button>
