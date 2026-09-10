@@ -54,6 +54,18 @@ export const translations = {
     // Combobox
     showingFirst50: 'Showing first 50 results — type more to narrow down',
     noSupplierFound: 'No supplier found',
+
+    // Help modal
+    helpTitle: 'Help & FAQ',
+    helpQ1: 'What are these system codes?',
+    helpA1: 'These are your supplier account codes in our retail system. Each location (Batu Kawa, Riam, Bintulu) has its own code.',
+    helpQ2: 'Where do I find my codes?',
+    helpA2: 'Log in to your supplier/ERP system and look for your account code. It may be labelled "Account Code" or "Supplier Code" per outlet.',
+    helpQ3: 'My company is not in the list — what do I do?',
+    helpA3: 'Contact the IT & MIS Department to have your company added to the system.',
+    helpQ4: 'Who do I contact for help?',
+    helpA4: 'Reach out to the IT & MIS Department via your Emart representative.',
+    helpClose: 'Close',
   },
   zh: {
     title: '供应商门户',
@@ -100,6 +112,17 @@ export const translations = {
 
     showingFirst50: '显示前50个结果，请继续输入以缩小范围',
     noSupplierFound: '未找到相关供应商',
+
+    helpTitle: '帮助与常见问题',
+    helpQ1: '这些系统代码是什么？',
+    helpA1: '这些是您在我们零售系统中的供应商账户代码。每个地点（Batu Kawa、Riam、Bintulu）都有独立的代码。',
+    helpQ2: '我在哪里可以找到我的代码？',
+    helpA2: '登录您的供应商/ERP系统，查找账户代码，通常标注为各门店的"账户代码"或"供应商代码"。',
+    helpQ3: '我的公司不在列表中，怎么办？',
+    helpA3: '请联系 IT & MIS 部门，将您的公司添加到系统中。',
+    helpQ4: '我需要帮助，应该联系谁？',
+    helpA4: '请通过您的 Emart 代表联系 IT & MIS 部门。',
+    helpClose: '关闭',
   },
   ms: {
     title: 'Portal Pembekal',
@@ -146,6 +169,17 @@ export const translations = {
 
     showingFirst50: 'Menunjukkan 50 keputusan pertama — taip lebih untuk menyempitkan',
     noSupplierFound: 'Tiada pembekal ditemui',
+
+    helpTitle: 'Bantuan & Soalan Lazim',
+    helpQ1: 'Apakah kod sistem ini?',
+    helpA1: 'Ini adalah kod akaun pembekal anda dalam sistem runcit kami. Setiap lokasi (Batu Kawa, Riam, Bintulu) mempunyai kod tersendiri.',
+    helpQ2: 'Di mana saya boleh mencari kod saya?',
+    helpA2: 'Log masuk ke sistem pembekal/ERP anda dan cari kod akaun anda. Ia mungkin dilabelkan sebagai "Kod Akaun" atau "Kod Pembekal" bagi setiap cawangan.',
+    helpQ3: 'Syarikat saya tiada dalam senarai — apa yang perlu saya lakukan?',
+    helpA3: 'Hubungi Jabatan IT & MIS untuk menambah syarikat anda ke dalam sistem.',
+    helpQ4: 'Siapa yang perlu saya hubungi untuk mendapatkan bantuan?',
+    helpA4: 'Hubungi Jabatan IT & MIS melalui wakil Emart anda.',
+    helpClose: 'Tutup',
   },
 } as const;
 

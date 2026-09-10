@@ -2,6 +2,7 @@ import { type ReactNode, useEffect, useState } from 'react';
 import Clock from '@/components/Clock';
 import LogoMarquee from '@/components/LogoMarquee';
 import Footer from '@/components/Footer';
+import HelpButton from '@/components/HelpButton';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { useNav } from '@/NavContext';
 
@@ -80,6 +81,7 @@ export default function Layout({ children, showMarquee = true, align = 'center' 
       )}
 
       <Footer />
+      <HelpButton />
     </div>
   );
 }
