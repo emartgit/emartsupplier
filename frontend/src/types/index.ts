@@ -2,7 +2,7 @@ export interface OutletCodes {
   bk: string;   // Emart (Batu Kawa) Sdn Bhd
   sbk: string;  // Emart Property (Batu Kawa) Sdn Bhd
   ri: string;   // Emart (Riam) Sdn Bhd
-  rbu: string;  // Emart (Riam) Sdn Bhd *Bulatan — auto-copied from ri
+  sbl: string;  // Emart (Riam) Sdn Bhd *Bulatan — auto-copied from ri
   sri: string;  // Emart Realty (Riam) Sdn Bhd
   bt: string;   // Emart (Bintulu) Sdn Bhd
   sbu: string;  // Emart Realty (Bintulu) Sdn Bhd
@@ -23,7 +23,7 @@ export const OUTLET_FIELDS: { key: keyof OutletCodes; label: string }[] = [
   { key: 'bk',  label: 'Emart (Batu Kawa) Sdn Bhd' },
   { key: 'sbk', label: 'Emart Property (Batu Kawa) Sdn Bhd' },
   { key: 'ri',  label: 'Emart (Riam) Sdn Bhd' },
-  { key: 'rbu', label: 'Emart (Riam) Sdn Bhd *Bulatan' },
+  { key: 'sbl', label: 'Emart (Riam) Sdn Bhd *Bulatan' },
   { key: 'sri', label: 'Emart Realty (Riam) Sdn Bhd' },
   { key: 'bt',  label: 'Emart (Bintulu) Sdn Bhd' },
   { key: 'sbu', label: 'Emart Realty (Bintulu) Sdn Bhd' },

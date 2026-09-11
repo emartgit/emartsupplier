@@ -7,17 +7,17 @@ import { supplierService } from '@/services/SupplierService';
 import { OUTLET_FIELDS, type OutletCodes } from '@/types';
 import { useLanguage } from '@/i18n/LanguageContext';
 
-const EMPTY_CODES: OutletCodes = { bk: '', sbk: '', ri: '', rbu: '', sri: '', bt: '', sbu: '' };
+const EMPTY_CODES: OutletCodes = { bk: '', sbk: '', ri: '', sbl: '', sri: '', bt: '', sbu: '' };
 
-const MANUAL_KEYS: (keyof OutletCodes)[] = ['bk', 'sbk', 'ri', 'rbu', 'sri', 'bt', 'sbu'];
+const MANUAL_KEYS: (keyof OutletCodes)[] = ['bk', 'sbk', 'ri', 'sbl', 'sri', 'bt', 'sbu'];
 
 const LOCATION_GROUPS: { location: string; color: string; rows: (keyof OutletCodes)[][] }[] = [
   { location: 'Batu Kawa', color: 'from-blue-500 to-blue-600',       rows: [['bk', 'sbk']] },
-  { location: 'Riam',      color: 'from-violet-500 to-violet-600',   rows: [['ri', 'rbu'], ['sri']] },
+  { location: 'Riam',      color: 'from-violet-500 to-violet-600',   rows: [['ri', 'sbl'], ['sri']] },
   { location: 'Bintulu',   color: 'from-emerald-500 to-emerald-600', rows: [['bt', 'sbu']] },
 ];
 
-// Pre-compute field numbers (rbu shares number with ri since it's auto)
+// Pre-compute field numbers (sbl shares number with ri since it's auto)
 const FIELD_NUMBERS: Partial<Record<keyof OutletCodes, number>> = {};
 let _n = 1;
 for (const k of MANUAL_KEYS) FIELD_NUMBERS[k] = _n++;
