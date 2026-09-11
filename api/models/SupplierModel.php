@@ -28,13 +28,14 @@ class SupplierModel {
         $db = Database::getConnection();
 
         $sql = "
-            INSERT INTO supplier_codes (supplier, is_submitted, bk, sbk, ri, sri, bt, sbu, submitted_at)
-            VALUES (:supplier, TRUE, :bk, :sbk, :ri, :sri, :bt, :sbu, NOW())
+            INSERT INTO supplier_codes (supplier, is_submitted, bk, sbk, ri, rbu, sri, bt, sbu, submitted_at)
+            VALUES (:supplier, TRUE, :bk, :sbk, :ri, :rbu, :sri, :bt, :sbu, NOW())
             ON DUPLICATE KEY UPDATE
                 is_submitted = TRUE,
                 bk  = VALUES(bk),
                 sbk = VALUES(sbk),
                 ri  = VALUES(ri),
+                rbu = VALUES(rbu),
                 sri = VALUES(sri),
                 bt  = VALUES(bt),
                 sbu = VALUES(sbu),
@@ -47,6 +48,7 @@ class SupplierModel {
             ':bk'       => $codes['bk'],
             ':sbk'      => $codes['sbk'],
             ':ri'       => $codes['ri'],
+            ':rbu'      => $codes['ri'],  // Bulatan shares the same code as Riam
             ':sri'      => $codes['sri'],
             ':bt'       => $codes['bt'],
             ':sbu'      => $codes['sbu'],
@@ -59,7 +61,7 @@ class SupplierModel {
     public function getSupplierCodes(string $supplier): ?array {
         $db = Database::getConnection();
         $stmt = $db->prepare(
-            "SELECT bk, sbk, ri, sri, bt, sbu FROM supplier_codes WHERE supplier = :supplier LIMIT 1"
+            "SELECT bk, sbk, ri, rbu, sri, bt, sbu FROM supplier_codes WHERE supplier = :supplier LIMIT 1"
         );
         $stmt->execute([':supplier' => $supplier]);
         return $stmt->fetch() ?: null;

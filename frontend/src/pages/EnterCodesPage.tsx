@@ -136,17 +136,13 @@ export default function EnterCodesPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-gray-100 dark:bg-gray-700">
                 {keys.map((k, fi) => {
                   const filled = codes[k].trim() !== '';
-                  const shortLabel = fieldMap[k]
-                    .replace(/ Sdn Bhd/i, '')
-                    .replace(/Emart /i, '')
-                    .trim();
                   return (
                     <div key={k} className="bg-white dark:bg-gray-800 p-3">
                       <label
                         htmlFor={k}
                         className={`block text-[11px] font-semibold uppercase tracking-wide mb-1.5 transition-colors ${filled ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'}`}
                       >
-                        {fi + 1 + gi * 2}. {shortLabel}
+                        {fi + 1 + gi * 2}. {fieldMap[k]}
                       </label>
                       <div className="relative">
                         <Input
@@ -163,6 +159,11 @@ export default function EnterCodesPage() {
                           </div>
                         )}
                       </div>
+                      {k === 'ri' && (
+                        <p className="mt-1.5 text-[10px] text-violet-500 dark:text-violet-400 leading-tight">
+                          ↳ Also applies to Emart (Riam) Sdn Bhd <span className="font-semibold">*Bulatan</span>
+                        </p>
+                      )}
                     </div>
                   );
                 })}
