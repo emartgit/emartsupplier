@@ -78,35 +78,34 @@ export default function EnterCodesPage() {
 
   return (
     <Layout showMarquee={false} align="top">
-      <div className="w-full max-w-2xl bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-5 sm:p-7 mt-2 mb-4">
+      <div className="w-full max-w-2xl bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-3 sm:p-5 mt-1 mb-2">
 
-        {/* Back */}
-        <button
-          onClick={() => navigate('/')}
-          className="inline-flex items-center gap-1.5 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium mb-4 transition-colors group"
-        >
-          <svg className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-          </svg>
-          {t.back.replace('← ', '')}
-        </button>
-
-        {/* Header + progress row */}
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-5">
-          <div>
-            <h1 className="text-xl font-bold text-gray-900 dark:text-white">{t.enterCodesTitle}</h1>
-            <p className="mt-0.5 text-sm text-gray-500 dark:text-gray-400">
-              {t.supplierPrefix}<span className="font-semibold text-gray-700 dark:text-gray-200">{supplier}</span>
-            </p>
-          </div>
-
-          {/* Compact progress */}
-          <div className="sm:text-right shrink-0">
-            <div className="flex sm:justify-end items-center gap-2 mb-1">
-              <span className="text-xs text-gray-400 dark:text-gray-500">{filledCount}/{totalFields} filled</span>
-              <span className="text-xs font-bold text-blue-600 dark:text-blue-400">{progressPct}%</span>
+        {/* Back + header + progress in one compact row */}
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => navigate('/')}
+              className="inline-flex items-center gap-1 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium transition-colors group shrink-0"
+            >
+              <svg className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+              </svg>
+              {t.back.replace('← ', '')}
+            </button>
+            <div className="w-px h-5 bg-gray-200 dark:bg-gray-600" />
+            <div>
+              <h1 className="text-base font-bold text-gray-900 dark:text-white leading-tight">{t.enterCodesTitle}</h1>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                {t.supplierPrefix}<span className="font-semibold text-gray-700 dark:text-gray-200">{supplier}</span>
+              </p>
             </div>
-            <div className="w-full sm:w-36 h-1.5 rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden">
+          </div>
+          <div className="shrink-0 text-right">
+            <div className="flex justify-end items-center gap-1.5 mb-0.5">
+              <span className="text-[11px] text-gray-400 dark:text-gray-500">{filledCount}/{totalFields}</span>
+              <span className="text-[11px] font-bold text-blue-600 dark:text-blue-400">{progressPct}%</span>
+            </div>
+            <div className="w-28 h-1.5 rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden">
               <div
                 className="h-full rounded-full transition-all duration-500"
                 style={{
@@ -121,22 +120,22 @@ export default function EnterCodesPage() {
         </div>
 
         {submitError && (
-          <div className="mb-4 rounded-md bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-3 text-sm text-red-700 dark:text-red-400">
+          <div className="mb-2 rounded-md bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-2 text-xs text-red-700 dark:text-red-400">
             {submitError}
           </div>
         )}
 
         {/* Location groups */}
-        <div className="space-y-3">
+        <div className="space-y-2">
           {LOCATION_GROUPS.map(({ location: loc, color, rows }, gi) => (
             <div
               key={loc}
-              className="rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden field-enter"
+              className="rounded-lg border border-gray-100 dark:border-gray-700 overflow-hidden field-enter"
               style={{ animationDelay: `${gi * 0.1}s` }}
             >
               {/* Location header */}
-              <div className={`bg-gradient-to-r ${color} px-4 py-1.5`}>
-                <span className="text-white text-xs font-bold uppercase tracking-widest">{loc}</span>
+              <div className={`bg-gradient-to-r ${color} px-3 py-1`}>
+                <span className="text-white text-[11px] font-bold uppercase tracking-widest">{loc}</span>
               </div>
 
               {/* Rows of fields */}
@@ -147,10 +146,10 @@ export default function EnterCodesPage() {
                       const filled = codes[k].trim() !== '';
                       const fieldNum = FIELD_NUMBERS[k];
                       return (
-                        <div key={k} className={`bg-white dark:bg-gray-800 p-3 ${rowKeys.length === 1 ? 'sm:col-span-2' : ''}`}>
+                        <div key={k} className={`bg-white dark:bg-gray-800 p-2 ${rowKeys.length === 1 ? 'sm:col-span-2' : ''}`}>
                           <label
                             htmlFor={k}
-                            className={`block text-[11px] font-semibold uppercase tracking-wide mb-1.5 transition-colors ${filled ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'}`}
+                            className={`block text-[10px] font-semibold uppercase tracking-wide mb-1 transition-colors ${filled ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'}`}
                           >
                             {fieldNum}. {fieldMap[k]}
                           </label>
@@ -161,7 +160,7 @@ export default function EnterCodesPage() {
                               value={codes[k]}
                               onChange={e => updateCode(k, e.target.value)}
                               disabled={submitting}
-                              className={`h-9 text-base pr-8 transition-colors ${filled ? 'border-green-500 dark:border-green-500 focus:ring-green-500' : ''}`}
+                              className={`h-8 text-base pr-8 transition-colors ${filled ? 'border-green-500 dark:border-green-500 focus:ring-green-500' : ''}`}
                             />
                             {filled && (
                               <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none">
@@ -180,10 +179,10 @@ export default function EnterCodesPage() {
         </div>
 
         {validationErr && (
-          <p className="mt-3 text-sm text-red-500 dark:text-red-400 text-center">{validationErr}</p>
+          <p className="mt-2 text-xs text-red-500 dark:text-red-400 text-center">{validationErr}</p>
         )}
 
-        <Button className="mt-4 w-full" onClick={handleSubmitClick} disabled={submitting}>
+        <Button className="mt-2 w-full" onClick={handleSubmitClick} disabled={submitting}>
           {t.submit}
         </Button>
       </div>
