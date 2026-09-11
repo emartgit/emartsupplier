@@ -48,7 +48,7 @@ class SupplierModel {
             ':bk'       => $codes['bk'],
             ':sbk'      => $codes['sbk'],
             ':ri'       => $codes['ri'],
-            ':rbu'      => $codes['ri'],  // Bulatan shares the same code as Riam
+            ':rbu'      => $codes['rbu'],
             ':sri'      => $codes['sri'],
             ':bt'       => $codes['bt'],
             ':sbu'      => $codes['sbu'],

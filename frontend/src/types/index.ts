@@ -19,11 +19,11 @@ export interface ApiResponse<T> {
   error?: string;
 }
 
-export const OUTLET_FIELDS: { key: keyof OutletCodes; label: string; auto?: boolean }[] = [
+export const OUTLET_FIELDS: { key: keyof OutletCodes; label: string }[] = [
   { key: 'bk',  label: 'Emart (Batu Kawa) Sdn Bhd' },
   { key: 'sbk', label: 'Emart Property (Batu Kawa) Sdn Bhd' },
   { key: 'ri',  label: 'Emart (Riam) Sdn Bhd' },
-  { key: 'rbu', label: 'Emart (Riam) Sdn Bhd *Bulatan', auto: true },
+  { key: 'rbu', label: 'Emart (Riam) Sdn Bhd *Bulatan' },
   { key: 'sri', label: 'Emart Realty (Riam) Sdn Bhd' },
   { key: 'bt',  label: 'Emart (Bintulu) Sdn Bhd' },
   { key: 'sbu', label: 'Emart Realty (Bintulu) Sdn Bhd' },

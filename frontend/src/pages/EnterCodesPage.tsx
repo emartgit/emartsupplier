@@ -9,7 +9,7 @@ import { useLanguage } from '@/i18n/LanguageContext';
 
 const EMPTY_CODES: OutletCodes = { bk: '', sbk: '', ri: '', rbu: '', sri: '', bt: '', sbu: '' };
 
-const MANUAL_KEYS: (keyof OutletCodes)[] = ['bk', 'sbk', 'ri', 'sri', 'bt', 'sbu'];
+const MANUAL_KEYS: (keyof OutletCodes)[] = ['bk', 'sbk', 'ri', 'rbu', 'sri', 'bt', 'sbu'];
 
 const LOCATION_GROUPS: { location: string; color: string; keys: (keyof OutletCodes)[]; cols: 2 | 3 }[] = [
   { location: 'Batu Kawa', color: 'from-blue-500 to-blue-600',      keys: ['bk', 'sbk'],       cols: 2 },
@@ -52,11 +52,7 @@ export default function EnterCodesPage() {
   const fieldMap = Object.fromEntries(OUTLET_FIELDS.map(f => [f.key, f.label]));
 
   function updateCode(field: keyof OutletCodes, value: string) {
-    setCodes(prev => {
-      const updated = { ...prev, [field]: value };
-      if (field === 'ri') updated.rbu = value;
-      return updated;
-    });
+    setCodes(prev => ({ ...prev, [field]: value }));
     if (value.trim()) setValidationErr('');
   }
 
@@ -146,33 +142,24 @@ export default function EnterCodesPage() {
               {/* Fields grid */}
               <div className={`grid grid-cols-1 ${cols === 3 ? 'sm:grid-cols-3' : 'sm:grid-cols-2'} gap-px bg-gray-100 dark:bg-gray-700`}>
                 {keys.map((k) => {
-                  const isAuto = k === 'rbu';
                   const filled = codes[k].trim() !== '';
                   const fieldNum = FIELD_NUMBERS[k];
                   return (
-                    <div key={k} className={`p-3 ${isAuto ? 'bg-violet-50 dark:bg-violet-900/20' : 'bg-white dark:bg-gray-800'}`}>
-                      <div className="flex items-center gap-1.5 mb-1.5">
-                        <label
-                          htmlFor={k}
-                          className={`block text-[11px] font-semibold uppercase tracking-wide transition-colors ${filled ? 'text-green-600 dark:text-green-400' : isAuto ? 'text-violet-400 dark:text-violet-400' : 'text-gray-400 dark:text-gray-500'}`}
-                        >
-                          {fieldNum ? `${fieldNum}. ` : ''}{fieldMap[k]}
-                        </label>
-                        {isAuto && (
-                          <span className="shrink-0 text-[9px] font-bold uppercase tracking-wide bg-violet-100 dark:bg-violet-800/50 text-violet-600 dark:text-violet-300 px-1.5 py-0.5 rounded-full">
-                            Auto
-                          </span>
-                        )}
-                      </div>
+                    <div key={k} className="bg-white dark:bg-gray-800 p-3">
+                      <label
+                        htmlFor={k}
+                        className={`block text-[11px] font-semibold uppercase tracking-wide mb-1.5 transition-colors ${filled ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'}`}
+                      >
+                        {fieldNum ? `${fieldNum}. ` : ''}{fieldMap[k]}
+                      </label>
                       <div className="relative">
                         <Input
                           id={k}
-                          placeholder={isAuto ? '— Auto-filled from Riam —' : t.codePlaceholder}
+                          placeholder={t.codePlaceholder}
                           value={codes[k]}
                           onChange={e => updateCode(k, e.target.value)}
-                          disabled={submitting || isAuto}
-                          readOnly={isAuto}
-                          className={`h-9 text-base pr-8 transition-colors ${filled ? 'border-green-500 dark:border-green-500 focus:ring-green-500' : ''} ${isAuto ? 'bg-violet-50/60 dark:bg-violet-900/10 text-gray-500 dark:text-gray-400 cursor-not-allowed' : ''}`}
+                          disabled={submitting}
+                          className={`h-9 text-base pr-8 transition-colors ${filled ? 'border-green-500 dark:border-green-500 focus:ring-green-500' : ''}`}
                         />
                         {filled && (
                           <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none">
