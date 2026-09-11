@@ -11,10 +11,10 @@ const EMPTY_CODES: OutletCodes = { bk: '', sbk: '', ri: '', rbu: '', sri: '', bt
 
 const MANUAL_KEYS: (keyof OutletCodes)[] = ['bk', 'sbk', 'ri', 'rbu', 'sri', 'bt', 'sbu'];
 
-const LOCATION_GROUPS: { location: string; color: string; keys: (keyof OutletCodes)[]; cols: 2 | 3 }[] = [
-  { location: 'Batu Kawa', color: 'from-blue-500 to-blue-600',      keys: ['bk', 'sbk'],       cols: 2 },
-  { location: 'Riam',      color: 'from-violet-500 to-violet-600',  keys: ['ri', 'rbu', 'sri'], cols: 3 },
-  { location: 'Bintulu',   color: 'from-emerald-500 to-emerald-600', keys: ['bt', 'sbu'],       cols: 2 },
+const LOCATION_GROUPS: { location: string; color: string; rows: (keyof OutletCodes)[][] }[] = [
+  { location: 'Batu Kawa', color: 'from-blue-500 to-blue-600',       rows: [['bk', 'sbk']] },
+  { location: 'Riam',      color: 'from-violet-500 to-violet-600',   rows: [['ri', 'rbu'], ['sri']] },
+  { location: 'Bintulu',   color: 'from-emerald-500 to-emerald-600', rows: [['bt', 'sbu']] },
 ];
 
 // Pre-compute field numbers (rbu shares number with ri since it's auto)
@@ -128,48 +128,52 @@ export default function EnterCodesPage() {
 
         {/* Location groups */}
         <div className="space-y-3">
-          {LOCATION_GROUPS.map(({ location: loc, color, keys, cols }, gi) => (
+          {LOCATION_GROUPS.map(({ location: loc, color, rows }, gi) => (
             <div
               key={loc}
               className="rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden field-enter"
               style={{ animationDelay: `${gi * 0.1}s` }}
             >
               {/* Location header */}
-              <div className={`bg-gradient-to-r ${color} px-4 py-1.5 flex items-center gap-2`}>
+              <div className={`bg-gradient-to-r ${color} px-4 py-1.5`}>
                 <span className="text-white text-xs font-bold uppercase tracking-widest">{loc}</span>
               </div>
 
-              {/* Fields grid */}
-              <div className={`grid grid-cols-1 ${cols === 3 ? 'sm:grid-cols-3' : 'sm:grid-cols-2'} gap-px bg-gray-100 dark:bg-gray-700`}>
-                {keys.map((k) => {
-                  const filled = codes[k].trim() !== '';
-                  const fieldNum = FIELD_NUMBERS[k];
-                  return (
-                    <div key={k} className="bg-white dark:bg-gray-800 p-3">
-                      <label
-                        htmlFor={k}
-                        className={`block text-[11px] font-semibold uppercase tracking-wide mb-1.5 transition-colors ${filled ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'}`}
-                      >
-                        {fieldNum ? `${fieldNum}. ` : ''}{fieldMap[k]}
-                      </label>
-                      <div className="relative">
-                        <Input
-                          id={k}
-                          placeholder={t.codePlaceholder}
-                          value={codes[k]}
-                          onChange={e => updateCode(k, e.target.value)}
-                          disabled={submitting}
-                          className={`h-9 text-base pr-8 transition-colors ${filled ? 'border-green-500 dark:border-green-500 focus:ring-green-500' : ''}`}
-                        />
-                        {filled && (
-                          <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none">
-                            <CheckIcon />
+              {/* Rows of fields */}
+              <div className="divide-y divide-gray-100 dark:divide-gray-700">
+                {rows.map((rowKeys, ri) => (
+                  <div key={ri} className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-gray-100 dark:bg-gray-700">
+                    {rowKeys.map((k) => {
+                      const filled = codes[k].trim() !== '';
+                      const fieldNum = FIELD_NUMBERS[k];
+                      return (
+                        <div key={k} className={`bg-white dark:bg-gray-800 p-3 ${rowKeys.length === 1 ? 'sm:col-span-2' : ''}`}>
+                          <label
+                            htmlFor={k}
+                            className={`block text-[11px] font-semibold uppercase tracking-wide mb-1.5 transition-colors ${filled ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'}`}
+                          >
+                            {fieldNum}. {fieldMap[k]}
+                          </label>
+                          <div className="relative">
+                            <Input
+                              id={k}
+                              placeholder={t.codePlaceholder}
+                              value={codes[k]}
+                              onChange={e => updateCode(k, e.target.value)}
+                              disabled={submitting}
+                              className={`h-9 text-base pr-8 transition-colors ${filled ? 'border-green-500 dark:border-green-500 focus:ring-green-500' : ''}`}
+                            />
+                            {filled && (
+                              <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none">
+                                <CheckIcon />
+                              </div>
+                            )}
                           </div>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
+                        </div>
+                      );
+                    })}
+                  </div>
+                ))}
               </div>
             </div>
           ))}
