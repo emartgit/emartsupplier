@@ -16,7 +16,7 @@ if (!is_array($body)) {
 }
 
 $supplier = trim($body['supplier'] ?? '');
-$required = ['bk', 'sbk', 'ri', 'sbl', 'sri', 'bt', 'sbu'];
+$required = ['bk', 'sbk', 'ri', 'bl', 'sri', 'sbl', 'bt', 'sbu'];
 
 if ($supplier === '') {
     jsonError('Supplier name is required');

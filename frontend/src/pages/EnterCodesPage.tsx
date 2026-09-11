@@ -7,13 +7,13 @@ import { supplierService } from '@/services/SupplierService';
 import { OUTLET_FIELDS, type OutletCodes } from '@/types';
 import { useLanguage } from '@/i18n/LanguageContext';
 
-const EMPTY_CODES: OutletCodes = { bk: '', sbk: '', ri: '', sbl: '', sri: '', bt: '', sbu: '' };
+const EMPTY_CODES: OutletCodes = { bk: '', sbk: '', ri: '', bl: '', sri: '', sbl: '', bt: '', sbu: '' };
 
-const MANUAL_KEYS: (keyof OutletCodes)[] = ['bk', 'sbk', 'ri', 'sbl', 'sri', 'bt', 'sbu'];
+const MANUAL_KEYS: (keyof OutletCodes)[] = ['bk', 'sbk', 'ri', 'bl', 'sri', 'sbl', 'bt', 'sbu'];
 
 const LOCATION_GROUPS: { location: string; color: string; rows: (keyof OutletCodes)[][] }[] = [
   { location: 'Batu Kawa', color: 'from-blue-500 to-blue-600',       rows: [['bk', 'sbk']] },
-  { location: 'Riam',      color: 'from-violet-500 to-violet-600',   rows: [['ri', 'sbl'], ['sri']] },
+  { location: 'Riam',      color: 'from-violet-500 to-violet-600',   rows: [['ri', 'bl'], ['sri', 'sbl']] },
   { location: 'Bintulu',   color: 'from-emerald-500 to-emerald-600', rows: [['bt', 'sbu']] },
 ];
 
