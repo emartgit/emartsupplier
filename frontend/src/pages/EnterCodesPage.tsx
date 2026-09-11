@@ -7,13 +7,20 @@ import { supplierService } from '@/services/SupplierService';
 import { OUTLET_FIELDS, type OutletCodes } from '@/types';
 import { useLanguage } from '@/i18n/LanguageContext';
 
-const EMPTY_CODES: OutletCodes = { bk: '', sbk: '', ri: '', sri: '', bt: '', sbu: '' };
+const EMPTY_CODES: OutletCodes = { bk: '', sbk: '', ri: '', rbu: '', sri: '', bt: '', sbu: '' };
 
-const LOCATION_GROUPS = [
-  { location: 'Batu Kawa', color: 'from-blue-500 to-blue-600',   keys: ['bk',  'sbk'] as const },
-  { location: 'Riam',      color: 'from-violet-500 to-violet-600', keys: ['ri',  'sri'] as const },
-  { location: 'Bintulu',   color: 'from-emerald-500 to-emerald-600', keys: ['bt', 'sbu'] as const },
+const MANUAL_KEYS: (keyof OutletCodes)[] = ['bk', 'sbk', 'ri', 'sri', 'bt', 'sbu'];
+
+const LOCATION_GROUPS: { location: string; color: string; keys: (keyof OutletCodes)[]; cols: 2 | 3 }[] = [
+  { location: 'Batu Kawa', color: 'from-blue-500 to-blue-600',      keys: ['bk', 'sbk'],       cols: 2 },
+  { location: 'Riam',      color: 'from-violet-500 to-violet-600',  keys: ['ri', 'rbu', 'sri'], cols: 3 },
+  { location: 'Bintulu',   color: 'from-emerald-500 to-emerald-600', keys: ['bt', 'sbu'],       cols: 2 },
 ];
+
+// Pre-compute field numbers (rbu shares number with ri since it's auto)
+const FIELD_NUMBERS: Partial<Record<keyof OutletCodes, number>> = {};
+let _n = 1;
+for (const k of MANUAL_KEYS) FIELD_NUMBERS[k] = _n++;
 
 function CheckIcon() {
   return (
@@ -37,15 +44,19 @@ export default function EnterCodesPage() {
 
   if (!supplier) return <Navigate to="/" replace />;
 
-  const filledCount   = Object.values(codes).filter(v => v.trim() !== '').length;
-  const totalFields   = OUTLET_FIELDS.length;
+  const filledCount   = MANUAL_KEYS.filter(k => codes[k].trim() !== '').length;
+  const totalFields   = MANUAL_KEYS.length;
   const hasAtLeastOne = filledCount > 0;
   const progressPct   = Math.round((filledCount / totalFields) * 100);
 
   const fieldMap = Object.fromEntries(OUTLET_FIELDS.map(f => [f.key, f.label]));
 
   function updateCode(field: keyof OutletCodes, value: string) {
-    setCodes(prev => ({ ...prev, [field]: value }));
+    setCodes(prev => {
+      const updated = { ...prev, [field]: value };
+      if (field === 'ri') updated.rbu = value;
+      return updated;
+    });
     if (value.trim()) setValidationErr('');
   }
 
@@ -121,7 +132,7 @@ export default function EnterCodesPage() {
 
         {/* Location groups */}
         <div className="space-y-3">
-          {LOCATION_GROUPS.map(({ location: loc, color, keys }, gi) => (
+          {LOCATION_GROUPS.map(({ location: loc, color, keys, cols }, gi) => (
             <div
               key={loc}
               className="rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden field-enter"
@@ -132,26 +143,36 @@ export default function EnterCodesPage() {
                 <span className="text-white text-xs font-bold uppercase tracking-widest">{loc}</span>
               </div>
 
-              {/* Two fields side by side */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-gray-100 dark:bg-gray-700">
-                {keys.map((k, fi) => {
+              {/* Fields grid */}
+              <div className={`grid grid-cols-1 ${cols === 3 ? 'sm:grid-cols-3' : 'sm:grid-cols-2'} gap-px bg-gray-100 dark:bg-gray-700`}>
+                {keys.map((k) => {
+                  const isAuto = k === 'rbu';
                   const filled = codes[k].trim() !== '';
+                  const fieldNum = FIELD_NUMBERS[k];
                   return (
-                    <div key={k} className="bg-white dark:bg-gray-800 p-3">
-                      <label
-                        htmlFor={k}
-                        className={`block text-[11px] font-semibold uppercase tracking-wide mb-1.5 transition-colors ${filled ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'}`}
-                      >
-                        {fi + 1 + gi * 2}. {fieldMap[k]}
-                      </label>
+                    <div key={k} className={`p-3 ${isAuto ? 'bg-violet-50 dark:bg-violet-900/20' : 'bg-white dark:bg-gray-800'}`}>
+                      <div className="flex items-center gap-1.5 mb-1.5">
+                        <label
+                          htmlFor={k}
+                          className={`block text-[11px] font-semibold uppercase tracking-wide transition-colors ${filled ? 'text-green-600 dark:text-green-400' : isAuto ? 'text-violet-400 dark:text-violet-400' : 'text-gray-400 dark:text-gray-500'}`}
+                        >
+                          {fieldNum ? `${fieldNum}. ` : ''}{fieldMap[k]}
+                        </label>
+                        {isAuto && (
+                          <span className="shrink-0 text-[9px] font-bold uppercase tracking-wide bg-violet-100 dark:bg-violet-800/50 text-violet-600 dark:text-violet-300 px-1.5 py-0.5 rounded-full">
+                            Auto
+                          </span>
+                        )}
+                      </div>
                       <div className="relative">
                         <Input
                           id={k}
-                          placeholder={t.codePlaceholder}
+                          placeholder={isAuto ? '— Auto-filled from Riam —' : t.codePlaceholder}
                           value={codes[k]}
                           onChange={e => updateCode(k, e.target.value)}
-                          disabled={submitting}
-                          className={`h-9 text-base pr-8 transition-colors ${filled ? 'border-green-500 dark:border-green-500 focus:ring-green-500' : ''}`}
+                          disabled={submitting || isAuto}
+                          readOnly={isAuto}
+                          className={`h-9 text-base pr-8 transition-colors ${filled ? 'border-green-500 dark:border-green-500 focus:ring-green-500' : ''} ${isAuto ? 'bg-violet-50/60 dark:bg-violet-900/10 text-gray-500 dark:text-gray-400 cursor-not-allowed' : ''}`}
                         />
                         {filled && (
                           <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none">
@@ -159,11 +180,6 @@ export default function EnterCodesPage() {
                           </div>
                         )}
                       </div>
-                      {k === 'ri' && (
-                        <p className="mt-1.5 text-[10px] text-violet-500 dark:text-violet-400 leading-tight">
-                          ↳ Also applies to Emart (Riam) Sdn Bhd <span className="font-semibold">*Bulatan</span>
-                        </p>
-                      )}
                     </div>
                   );
                 })}
