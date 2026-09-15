@@ -45,42 +45,106 @@ function sendSubmissionEmail(string $supplier, array $codes): void {
     $datetime = date('d M Y, h:i A') . ' (MYT)';
 
     function fmt(string $val): string {
-        return $val !== '' ? $val : '— (not provided)';
+        return $val;
     }
 
-    $body = "New supplier code submission received via supplier.emart.my\r\n";
-    $body .= str_repeat('-', 55) . "\r\n";
-    $body .= "Supplier     : {$supplier}\r\n";
-    $body .= "Submitted At : {$datetime}\r\n";
-    $body .= "IP Address   : {$ip}\r\n";
-    $body .= str_repeat('-', 55) . "\r\n\r\n";
+    function row(string $label, string $val): string {
+        $empty = $val === '';
+        $display = $empty ? '— not provided' : htmlspecialchars($val);
+        $valStyle = $empty
+            ? 'color:#9ca3af;font-style:italic;'
+            : 'color:#111827;font-weight:600;font-family:monospace;font-size:14px;';
+        return "<tr>
+          <td style='padding:9px 16px;color:#6b7280;font-size:13px;width:55%;border-bottom:1px solid #f3f4f6;'>" . htmlspecialchars($label) . "</td>
+          <td style='padding:9px 16px;font-size:13px;border-bottom:1px solid #f3f4f6;{$valStyle}'>{$display}</td>
+        </tr>";
+    }
 
-    $body .= "BATU KAWA\r\n";
-    $body .= str_repeat('-', 55) . "\r\n";
-    $body .= "Emart (Batu Kawa) Sdn Bhd          : " . fmt($codes['bk'])  . "\r\n";
-    $body .= "Emart Property (Batu Kawa) Sdn Bhd : " . fmt($codes['sbk']) . "\r\n\r\n";
+    function section(string $title, string $color, array $rows): string {
+        $rowsHtml = implode('', $rows);
+        return "<tr><td colspan='2' style='padding:0;'>
+          <div style='background:{$color};padding:7px 16px;'>
+            <span style='color:#fff;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;'>{$title}</span>
+          </div>
+          <table width='100%' cellpadding='0' cellspacing='0' style='border-collapse:collapse;'>{$rowsHtml}</table>
+        </td></tr>";
+    }
 
-    $body .= "RIAM\r\n";
-    $body .= str_repeat('-', 55) . "\r\n";
-    $body .= "Emart (Riam) Sdn Bhd               : " . fmt($codes['ri'])  . "\r\n";
-    $body .= "Emart Realty (Riam) Sdn Bhd        : " . fmt($codes['sri']) . "\r\n";
-    $body .= "Emart (Riam) Sdn Bhd - Bulatan     : " . fmt($codes['bl'])  . "\r\n";
-    $body .= "Emart Realty (Riam) Sdn Bhd - Bulatan : " . fmt($codes['sbl']) . "\r\n\r\n";
+    $esc = fn(string $s) => htmlspecialchars($s);
 
-    $body .= "BINTULU\r\n";
-    $body .= str_repeat('-', 55) . "\r\n";
-    $body .= "Emart (Bintulu) Sdn Bhd            : " . fmt($codes['bt'])  . "\r\n";
-    $body .= "Emart Realty (Bintulu) Sdn Bhd     : " . fmt($codes['sbu']) . "\r\n\r\n";
+    $html = "<!DOCTYPE html><html><head><meta charset='UTF-8'></head><body style='margin:0;padding:0;background:#f3f4f6;font-family:Arial,sans-serif;'>
+    <table width='100%' cellpadding='0' cellspacing='0' style='background:#f3f4f6;padding:32px 16px;'>
+      <tr><td align='center'>
+        <table width='600' cellpadding='0' cellspacing='0' style='max-width:600px;width:100%;'>
 
-    $body .= str_repeat('-', 55) . "\r\n";
-    $body .= "This is an automated message from the Emart Supplier Portal.\r\n";
-    $body .= "supplier.emart.my — IT & MIS Department\r\n";
+          <!-- Header -->
+          <tr><td style='background:linear-gradient(135deg,#1e3a5f,#2563eb);border-radius:12px 12px 0 0;padding:28px 32px;text-align:center;'>
+            <div style='display:inline-block;background:rgba(255,255,255,0.15);border-radius:50%;width:48px;height:48px;line-height:48px;font-size:22px;margin-bottom:12px;'>📋</div>
+            <h1 style='margin:0 0 4px;color:#fff;font-size:22px;font-weight:700;'>New Supplier Submission</h1>
+            <p style='margin:0;color:rgba(255,255,255,0.75);font-size:13px;'>supplier.emart.my &mdash; IT &amp; MIS Department</p>
+          </td></tr>
+
+          <!-- Meta info -->
+          <tr><td style='background:#fff;padding:20px 32px;border-left:1px solid #e5e7eb;border-right:1px solid #e5e7eb;'>
+            <table width='100%' cellpadding='0' cellspacing='0'>
+              <tr>
+                <td style='padding:6px 0;'>
+                  <span style='display:inline-block;background:#eff6ff;color:#1d4ed8;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:3px 10px;border-radius:20px;'>Supplier</span>
+                </td>
+                <td style='padding:6px 0;font-size:15px;font-weight:700;color:#111827;text-align:right;'>" . $esc($supplier) . "</td>
+              </tr>
+              <tr>
+                <td style='padding:6px 0;color:#6b7280;font-size:12px;'>Submitted At</td>
+                <td style='padding:6px 0;color:#374151;font-size:12px;text-align:right;'>{$datetime}</td>
+              </tr>
+              <tr>
+                <td style='padding:6px 0;color:#6b7280;font-size:12px;'>IP Address</td>
+                <td style='padding:6px 0;color:#374151;font-size:12px;font-family:monospace;text-align:right;'>{$ip}</td>
+              </tr>
+            </table>
+          </td></tr>
+
+          <!-- Divider -->
+          <tr><td style='background:#fff;padding:0 32px;border-left:1px solid #e5e7eb;border-right:1px solid #e5e7eb;'>
+            <hr style='border:none;border-top:1px solid #e5e7eb;margin:0;'>
+          </td></tr>
+
+          <!-- Codes table -->
+          <tr><td style='background:#fff;padding:16px 32px 24px;border-left:1px solid #e5e7eb;border-right:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;border-radius:0 0 12px 12px;'>
+            <table width='100%' cellpadding='0' cellspacing='0' style='border-collapse:collapse;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;'>
+              " . section('Batu Kawa', '#3b82f6', [
+                  row('Emart (Batu Kawa) Sdn Bhd', fmt($codes['bk'])),
+                  row('Emart Property (Batu Kawa) Sdn Bhd', fmt($codes['sbk'])),
+              ]) . "
+              " . section('Riam', '#7c3aed', [
+                  row('Emart (Riam) Sdn Bhd', fmt($codes['ri'])),
+                  row('Emart Realty (Riam) Sdn Bhd', fmt($codes['sri'])),
+                  row('Emart (Riam) Sdn Bhd - Bulatan', fmt($codes['bl'])),
+                  row('Emart Realty (Riam) Sdn Bhd - Bulatan', fmt($codes['sbl'])),
+              ]) . "
+              " . section('Bintulu', '#059669', [
+                  row('Emart (Bintulu) Sdn Bhd', fmt($codes['bt'])),
+                  row('Emart Realty (Bintulu) Sdn Bhd', fmt($codes['sbu'])),
+              ]) . "
+            </table>
+          </td></tr>
+
+          <!-- Footer -->
+          <tr><td style='padding:20px 0 0;text-align:center;color:#9ca3af;font-size:11px;'>
+            This is an automated message. Do not reply to this email.<br>
+            &copy; " . date('Y') . " Emart &mdash; IT &amp; MIS Department
+          </td></tr>
+
+        </table>
+      </td></tr>
+    </table>
+    </body></html>";
 
     $headers  = "MIME-Version: 1.0\r\n";
-    $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
     $headers .= "From: Supplier Portal <" . NOTIFICATION_FROM . ">\r\n";
     $headers .= "Reply-To: " . NOTIFICATION_FROM . "\r\n";
     $headers .= "X-Mailer: PHP/" . phpversion();
 
-    @mail($to, $subject, $body, $headers);
+    @mail($to, $subject, $html, $headers);
 }
