@@ -76,7 +76,9 @@ function sendSubmissionEmail(string $supplier, array $codes): void {
     $body .= "This is an automated message from the Emart Supplier Portal.\r\n";
     $body .= "supplier.emart.my — IT & MIS Department\r\n";
 
-    $headers  = "From: Supplier Portal <" . NOTIFICATION_FROM . ">\r\n";
+    $headers  = "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+    $headers .= "From: Supplier Portal <" . NOTIFICATION_FROM . ">\r\n";
     $headers .= "Reply-To: " . NOTIFICATION_FROM . "\r\n";
     $headers .= "X-Mailer: PHP/" . phpversion();
 
