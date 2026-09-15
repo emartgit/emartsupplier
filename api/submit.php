@@ -164,5 +164,8 @@ function sendSubmissionEmail(string $supplier, array $codes): void {
     $headers .= "Reply-To: " . NOTIFICATION_FROM . "\r\n";
     $headers .= "X-Mailer: PHP/" . phpversion();
 
-    @mail($to, $subject, $html, $headers);
+    // Send individually so recipients cannot see each other's addresses
+    foreach (NOTIFICATION_EMAILS as $recipient) {
+        @mail($recipient, $subject, $html, $headers);
+    }
 }
