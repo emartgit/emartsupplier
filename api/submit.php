@@ -72,20 +72,24 @@ function sendSubmissionEmail(string $supplier, array $codes): void {
 
     $esc = fn(string $s) => htmlspecialchars($s);
 
-    $html = "<!DOCTYPE html><html><head><meta charset='UTF-8'></head><body style='margin:0;padding:0;background:#f3f4f6;font-family:Arial,sans-serif;'>
-    <table width='100%' cellpadding='0' cellspacing='0' style='background:#f3f4f6;padding:32px 16px;'>
+    $html = "<!DOCTYPE html><html><head><meta charset='UTF-8'></head><body style='margin:0;padding:0;background:#f0f2f5;font-family:Arial,sans-serif;'>
+    <table width='100%' cellpadding='0' cellspacing='0' style='background:#f0f2f5;padding:40px 24px;'>
       <tr><td align='center'>
         <table width='600' cellpadding='0' cellspacing='0' style='max-width:600px;width:100%;'>
 
-          <!-- Header -->
-          <tr><td style='background:linear-gradient(135deg,#1e3a5f,#2563eb);border-radius:12px 12px 0 0;padding:28px 32px;text-align:center;'>
-            <div style='display:inline-block;background:rgba(255,255,255,0.15);border-radius:50%;width:48px;height:48px;line-height:48px;font-size:22px;margin-bottom:12px;'>📋</div>
-            <h1 style='margin:0 0 4px;color:#fff;font-size:22px;font-weight:700;'>New Supplier Submission</h1>
-            <p style='margin:0;color:rgba(255,255,255,0.75);font-size:13px;'>supplier.emart.my &mdash; IT &amp; MIS Department</p>
+          <!-- Logo strip -->
+          <tr><td style='background:#fff;border-radius:12px 12px 0 0;padding:24px 40px 20px;text-align:center;border-left:1px solid #e5e7eb;border-right:1px solid #e5e7eb;border-top:1px solid #e5e7eb;'>
+            <img src='https://supplier.emart.my/logos/GROUPHOLDING_TRADEMARK_BLACK.png' alt='Emart Group' width='180' style='max-width:180px;height:auto;display:block;margin:0 auto;'>
+          </td></tr>
+
+          <!-- Blue header bar -->
+          <tr><td style='background:linear-gradient(135deg,#1e3a5f,#2563eb);padding:20px 40px;text-align:center;'>
+            <h1 style='margin:0 0 4px;color:#fff;font-size:20px;font-weight:700;letter-spacing:-0.3px;'>New Supplier Submission</h1>
+            <p style='margin:0;color:rgba(255,255,255,0.7);font-size:12px;'>supplier.emart.my &mdash; IT &amp; MIS Department</p>
           </td></tr>
 
           <!-- Meta info -->
-          <tr><td style='background:#fff;padding:20px 32px;border-left:1px solid #e5e7eb;border-right:1px solid #e5e7eb;'>
+          <tr><td style='background:#fff;padding:24px 40px;border-left:1px solid #e5e7eb;border-right:1px solid #e5e7eb;'>
             <table width='100%' cellpadding='0' cellspacing='0'>
               <tr>
                 <td style='padding:6px 0;'>
@@ -105,12 +109,12 @@ function sendSubmissionEmail(string $supplier, array $codes): void {
           </td></tr>
 
           <!-- Divider -->
-          <tr><td style='background:#fff;padding:0 32px;border-left:1px solid #e5e7eb;border-right:1px solid #e5e7eb;'>
+          <tr><td style='background:#fff;padding:0 40px;border-left:1px solid #e5e7eb;border-right:1px solid #e5e7eb;'>
             <hr style='border:none;border-top:1px solid #e5e7eb;margin:0;'>
           </td></tr>
 
           <!-- Codes table -->
-          <tr><td style='background:#fff;padding:16px 32px 24px;border-left:1px solid #e5e7eb;border-right:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;border-radius:0 0 12px 12px;'>
+          <tr><td style='background:#fff;padding:20px 40px 32px;border-left:1px solid #e5e7eb;border-right:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;border-radius:0 0 12px 12px;'>
             <table width='100%' cellpadding='0' cellspacing='0' style='border-collapse:collapse;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;'>
               " . section('Batu Kawa', '#3b82f6', [
                   row('Emart (Batu Kawa) Sdn Bhd', fmt($codes['bk'])),
