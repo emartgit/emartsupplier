@@ -72,14 +72,19 @@ function sendSubmissionEmail(string $supplier, array $codes): void {
 
     $esc = fn(string $s) => htmlspecialchars($s);
 
-    $html = "<!DOCTYPE html><html><head><meta charset='UTF-8'></head><body style='margin:0;padding:0;background:#f0f2f5;font-family:Arial,sans-serif;'>
+    $logoPath = __DIR__ . '/../logos/GROUPHOLDING_TRADEMARK_BLACK.png';
+    $logoImg  = is_readable($logoPath)
+        ? "<img src='data:image/png;base64," . base64_encode(file_get_contents($logoPath)) . "' alt='Emart Group' width='180' style='max-width:180px;height:auto;display:block;margin:0 auto;'>"
+        : "<span style='font-size:18px;font-weight:700;color:#1e3a5f;'>Emart Group</span>";
+
+    $html = str_replace('{LOGO_IMG}', $logoImg, "<!DOCTYPE html><html><head><meta charset='UTF-8'></head><body style='margin:0;padding:0;background:#f0f2f5;font-family:Arial,sans-serif;'>
     <table width='100%' cellpadding='0' cellspacing='0' style='background:#f0f2f5;padding:40px 24px;'>
       <tr><td align='center'>
         <table width='600' cellpadding='0' cellspacing='0' style='max-width:600px;width:100%;'>
 
           <!-- Logo strip -->
           <tr><td style='background:#fff;border-radius:12px 12px 0 0;padding:24px 40px 20px;text-align:center;border-left:1px solid #e5e7eb;border-right:1px solid #e5e7eb;border-top:1px solid #e5e7eb;'>
-            <img src='https://supplier.emart.my/logos/GROUPHOLDING_TRADEMARK_BLACK.png' alt='Emart Group' width='180' style='max-width:180px;height:auto;display:block;margin:0 auto;'>
+            {LOGO_IMG}
           </td></tr>
 
           <!-- Blue header bar -->
