@@ -2,14 +2,13 @@ import { useState, useEffect } from 'react';
 import { useLanguage } from '@/i18n/LanguageContext';
 
 const EVENT_START = new Date('2026-09-12T00:00:00+08:00');
-const EVENT_END   = new Date('2026-09-16T23:59:59+08:00');
+const EVENT_END   = new Date('2099-12-31T23:59:59+08:00');
 const SLIDE_INTERVAL = 4000;
 const BANNER_HEIGHT  = 260;
 
 const SLIDES = [
-  { src: '/logos/916.jpeg',            alt: '916 Member Day',  showCountdown: true  },
-  { src: '/logos/goceli.jpg',          alt: 'Goceli Opening Soon', showCountdown: false },
   { src: '/logos/keningauoutlet.jpeg', alt: 'Keningau Outlet', showCountdown: false },
+  { src: '/logos/goceli.jpg',          alt: 'Goceli',          showCountdown: false },
 ];
 
 function getTimeLeft(target: Date) {
